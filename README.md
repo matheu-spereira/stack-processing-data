@@ -1,2 +1,2 @@
 # stack-processing-data
-Stack Open Source para processamento de ados utilizando Cluster Spark, MinIO e Postgre
+Stack Open Source para processamento de dados utilizando Cluster Spark, MinIO e Postgre

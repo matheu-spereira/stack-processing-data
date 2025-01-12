@@ -1,0 +1,37 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: gold
+- datalakepath: SGT/RelatoriosSgt
+- mode: overwrite
+- key: id, id_data_calendario
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+       *
+    FROM 
+        sgt_relatorios
+delta_table:
+- path: silver/SGT/RelatoriosSgt
+  name: sgt_relatorios

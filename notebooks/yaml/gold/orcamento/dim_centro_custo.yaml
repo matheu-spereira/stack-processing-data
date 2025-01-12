@@ -1,0 +1,30 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+  query: ''
+  filter_full: ''
+  filter_partial: ''
+  delete_full: ''
+  delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: gold
+  datalakepath: orcamento/dim_centro_custo
+  mode: overwrite
+  key: idcentrocusto
+delta:
+- tablename: dim_centro_custo
+- query: " select idcentrocusto,codigoentidade,nmcentrocusto,sigla from dim_centro_custo "
+delta_table:
+- path: silver/sors/dim_centro_custo
+  name: dim_centro_custo

@@ -1,0 +1,50 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: tcu/fato_tcu_acordaos
+- mode: overwrite
+- key: key_acordao
+delta:
+- tablename: ''
+- query: |
+    select 
+        ROW_NUMBER() OVER (ORDER BY KEY) AS id,
+        KEY as key_acordao,
+        NUMACORDAO as numacordao,
+        to_date(DATASESSAO, 'dd/MM/yyyy') AS datasessao,
+        COLEGIADO as colegiado,
+        ASSUNTO as assunto,
+        NUMATA as numata,
+        PROC as proc,
+        CONCAT('https://pesquisa.apps.tcu.gov.br/push/processo?numero=', TRANSLATE(SUBSTRING_INDEX(IFNULL(TRIM(PROC), '00000000000'), ' ', 1), '.-/','')) as proc_acordao,
+        INITCAP(RELATOR) as relator,
+        SUMARIO as sumario, 
+        'Não Informado' as sistema_s,
+        ENTIDADE as entidade,
+        ANOACORDAO as anoacordao,
+        INITCAP(TIPO) as tipo
+    from compliance_tcu 
+delta_table:
+- path: bronze/tcu/acordaos
+  name: compliance_tcu

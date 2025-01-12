@@ -1,0 +1,34 @@
+type: database
+chunksize: 0
+database:
+- tablename: dbo.ahorario
+- schedule: '* * * * 7'
+- query: select codcoligada, codigo, descricao, databasehor, horarioturno, inativo,
+    hornoturno, consferiado, horariojor, temphorario, tipohor, consferdiaant, reccreatedby,
+    reccreatedon, recmodifiedby, recmodifiedon, considerareducaojornadaadnot, pagaadnoturno,
+    jordozetrintaseis, tipojoresocial, inicioreduzidaesocial, fimreduzidaesocial,
+    consdtfimjornadacomodtref from dbo.ahorario
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/ahorario
+- mode: overwrite
+- key: codcoligada,codigo
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

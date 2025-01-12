@@ -1,0 +1,74 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: sgt/fato_receitas
+- mode: overwrite
+- key: id
+delta:
+- tablename: ''
+- query: |
+   SELECT 
+        TO_DATE(CONCAT_WS('-', ano, mes, dia)) AS id_data_calendario,
+        CRProdutoRegional AS cr_produto_regional,
+        ano AS ano,
+        cnpjFontePagadora AS nr_cnpj_fonte_pagadora,
+        cpfCnpjCliente AS nr_cpf_cnpj_colaborador,
+        descricaoProdutoCategoria AS dsc_produto_categoria,
+        descricaoProdutoLinha AS dsc_produto_linha,
+        descricaoProdutoNacional AS dsc_produto_nacional,
+        descricaoProdutoRegional AS dsc_produto_regional,
+        dia AS dia,
+        id AS id,
+        idAtendimento AS id_atendimento,
+        CASE 
+            WHEN idPorteCliente LIKE '%@nil%' THEN regexp_extract(idPorteCliente, '@nil":"([^"]+)', 1)
+            ELSE idPorteCliente 
+        END AS id_porte_cliente,
+        isCompartilhado AS dsc_compartilhado,
+        isEmRede AS dsc_em_rede,
+        mes AS mes,
+        nomeCliente AS nm_cliente,
+        CASE 
+            WHEN nomeFontePagadora LIKE '%@nil%' THEN regexp_extract(nomeFontePagadora, '@nil":"([^"]+)', 1)
+            ELSE nomeFontePagadora 
+        END AS nm_fonte_pagadora,
+        CASE 
+            WHEN numeroAtendimento LIKE '%@nil%' THEN regexp_extract(numeroAtendimento, '@nil":"([^"]+)', 1)
+            ELSE numeroAtendimento 
+        END AS nr_atendimento,
+        CASE 
+            WHEN porteCliente LIKE '%@nil%' THEN regexp_extract(porteCliente, '@nil":"([^"]+)', 1)
+            ELSE porteCliente 
+        END AS dsc_porte_cliente,
+        tituloAtendimento AS dsc_titulo_atendimento,
+        unidadeOperacional AS dsc_unidade_operacional,
+        CASE 
+            WHEN valorReceitaRealizada LIKE '%@nil%' THEN regexp_extract(valorReceitaRealizada, '@nil":"([^"]+)', 1)
+            ELSE valorReceitaRealizada 
+        END AS vlr_receita_realizada
+    FROM 
+        receitas_sgt
+delta_table:
+- path: bronze/sgt/receitas
+  name: receitas_sgt

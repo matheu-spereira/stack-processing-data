@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.tven
+- schedule: '* * * * 7'
+- query: 'select codcoligada, codven, nome, cargo, codfilial, codloc, comissao1, comissao2, comissao3, codpessoa, vendecompra, codusuario, senha, inativo, pfvendedor, pfcaixa, pfsupervisor, pfgerente, idfuncionario, comissao4, descmaximo, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon from dbo.tven'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/tven
+- mode: overwrite
+- key: codcoligada,codven
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

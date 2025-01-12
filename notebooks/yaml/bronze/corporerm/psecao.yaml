@@ -1,0 +1,57 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.psecao
+- schedule: '* * * * 7'
+- query: select codcoligada, codigo, descricao, cgc, cgcanterior, cei, fpas, sat,
+    ativeconomica, inscrestadual, inscrmunicipal, rua, numero, complemento, bairro,
+    estado, cidade, cep, pais, telefone, codigocef, naoempregpropr, prefixorais, categoria,
+    integrcontabil, integrgerencial, nrofilialcont, nrocencustocont, codterceirosinss,
+    percentterceiros, percentacidtrab, faturamentobruto, valorfrete, complementogrps1,
+    complementogrps2, complementogrps3, codunidentrega, contato, ramal, vtcoddepto,
+    iniperrecpropr1, fimperrecpropr1, proprantes5dia1, iniperrecpropr2, fimperrecpropr2,
+    proprantes5dia2, iniperreccentr1, fimperreccentr1, centrantes5dia1, iniperreccentr2,
+    fimperreccentr2, centrantes5dia2, secaocentraliz, contribsesiesenai, distribpetroleo,
+    pessoafisica, secaodesativada, identificacaocgc, enderecoalterou, enderecopagto,
+    vtidentpedido, vtidentpersonal, vtcodcliente, vtcodlocal, vtcodsecfaturam, vtcodsecpedido,
+    vtcodseccobranca, vtcodsecentrega, vtcodcentrocusto, causamudancacgc, codmunicipio,
+    mesdatabase, naturezajuridica, codcalendario, prefixoinscrfgts, primeiradeclcaged,
+    encerramento, codfilial, coddepto, limitefunc, optasimples, mudoucnae, chapachefe,
+    percent15anosgrps, percent20anosgrps, percent25anosgrps, alteracaocaged, codpagtogps,
+    percisencaofilantropia, participapat, porteempresa, coddeptocont, ddd, verbaquadrovagas,
+    percquadrovagas, isentocontribsocial, vincpat5sal, vincpatmaior5sal, porcservprop,
+    porcadmcozinha, porcrefeicaoconv, porcrefeicaotransp, porccestaalimento, porcalimconvenio,
+    dtencerrativ, codplano, descricaoppp, codtabela, email, cnaerais, valorinssacumulado,
+    valorentidadesacumulado, idmemoambtrab, visivelorganograma, localidade, capitalsocemp,
+    capitalsocestab, codigopai, id, benefpontos, codpagtogpsterceiros, reccreatedby,
+    reccreatedon, recmodifiedby, recmodifiedon, tplotacao, cno, codtiporua, caepf,
+    secaoautonomos, tpprocessorat, nrprocessorat, tpprocessofap, nrprocessofap, tipocontroleponto,
+    tipotarefa, codareaatuacao, iditemcontabil, idclassevalor, contapr, nrprocjudapr,
+    contentedapr, contpcd, nrprocjudpcd, tpprocjudapr, codsuspprocjudapr, tpprocjudpcd,
+    codsuspprocjudpcd, codsuspprocjudrat, codsuspprocjudfap, codtercssusp, aliqratisento,
+    tipocaepf, cnaepreponderante, percentempresa, cnaesefip, similaridadeintegracaogupy
+    from dbo.psecao
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/psecao
+- mode: overwrite
+- key: codcoligada,codigo
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

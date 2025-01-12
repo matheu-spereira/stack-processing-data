@@ -1,0 +1,59 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+- query: ''
+- filter_full: ''
+- filter_partial: ''
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: silver
+  datalakepath: corporerm/fat_colaborador
+  mode: overwrite
+  key: id_matricula
+delta:
+- tablename: fat_colaborador
+- query: " select 
+pfunc.codpessoa as id_pessoa,
+concat(pfunc.codcoligada, '-', pfunc.chapa) as id_matricula,
+pcodsituacao.descricao as ds_situacao,
+pfuncao.nome as ds_cargo,gcoligada.codcoligada as cd_coligada,
+gfilial.nomefantasia as ds_unidade,ahorario.descricao as hr_trabalho, 
+pfunc.dataadmissao as dt_admissao,pfunc.datademissao as dt_demissao,
+pfuncao.codigo as cd_cargo,pfuncao.descricao as ds_funcao,
+pfunc.jornadamensal / 60 / 5 as hr_semanais,pfunc.jornadamensal / 60 as hr_mensais
+from pfunc 
+inner join gfilial on pfunc.codfilial = gfilial.codfilial and pfunc.codcoligada = gfilial.codcoligada
+inner join gcoligada on pfunc.codcoligada = gcoligada.codcoligada
+inner join psecao on pfunc.codsecao = psecao.codigo and pfunc.codcoligada = psecao.codcoligada
+inner join pfuncao on pfuncao.codigo = pfunc.codfuncao and pfuncao.codcoligada = pfunc.codcoligada
+left join ahorario on pfunc.codcoligada = ahorario.codcoligada and pfunc.codhorario = ahorario.codigo
+left join pcodsituacao on pfunc.codsituacao = pcodsituacao.codcliente "
+delta_table:
+- path: bronze/corporerm/ahorario
+  name: ahorario
+- path: bronze/corporerm/gcoligada
+  name: gcoligada
+- path: bronze/corporerm/gfilial
+  name: gfilial
+- path: bronze/corporerm/pcodinstrucao
+  name: pcodinstrucao
+- path: bronze/corporerm/pcodsituacao
+  name: pcodsituacao
+- path: bronze/corporerm/pfunc
+  name: pfunc
+- path: bronze/corporerm/pfuncao
+  name: pfuncao
+- path: bronze/corporerm/psecao
+  name: psecao 

@@ -1,0 +1,74 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: sgt/fato_relatorios
+- mode: overwrite
+- key: id, id_data_calendario
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+        distinct
+        TO_DATE(CONCAT_WS('-', ano, mes, dia)) AS id_data_calendario,
+        CRProdutoRegional AS cr_produto_regional,
+        ano AS ano,
+        cpfCnpjCliente AS nr_cnpj_cliente,
+        cpfColaborador AS nr_cpf_colaborador,
+        descricaoProdutoCategoria AS dsc_produto_categoria,
+        descricaoProdutoLinha AS dsc_produto_linha,
+        descricaoProdutoNacional AS dsc_produto_nacional,
+        descricaoProdutoRegional AS dsc_produto_regional,
+        dia AS dia,
+        emailColaborador AS nm_email_colaborador,
+        ensaiosRealizados AS nr_ensaios_realizados,
+        id AS id,
+        idAtendimento AS id_atendimento,
+        CASE 
+            WHEN idPorteCliente LIKE '%@nil%' THEN regexp_extract(idPorteCliente, '@nil":"([^"]+)', 1)
+            ELSE idPorteCliente 
+        END AS id_porte_cliente,
+        isCompartilhado AS dsc_compartilhamento,
+        isEmRede AS dsc_em_rede,
+        mes AS mes,
+        nomeCliente AS nm_cliente,
+        CASE 
+            WHEN nomeColaborador LIKE '%@nil%' THEN regexp_extract(nomeColaborador, '@nil":"([^"]+)', 1)
+            ELSE nomeColaborador 
+        END AS nm_colaborador,
+        CASE 
+            WHEN numeroAtendimento LIKE '%@nil%' THEN regexp_extract(numeroAtendimento, '@nil":"([^"]+)', 1)
+            ELSE numeroAtendimento 
+        END AS nr_atendimento,
+        CASE 
+            WHEN porteCliente LIKE '%@nil%' THEN regexp_extract(porteCliente, '@nil":"([^"]+)', 1)
+            ELSE porteCliente 
+        END AS nm_porte_cliente,
+        relatoriosRealizados AS nr_relatorios_realizados,
+        tituloAtendimento AS dsc_titulo_atendimento,
+        unidadeOperacional AS nm_unidade_operacional
+    FROM 
+        relatorios_sgt
+delta_table:
+- path: bronze/sgt/relatorios
+  name: relatorios_sgt

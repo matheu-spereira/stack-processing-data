@@ -1,0 +1,33 @@
+type: api
+chunksize: 10000
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: cnae_classes
+- origin: cnae
+- url: https://servicodados.ibge.gov.br/api/v2/cnae/grupos
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: bronze
+- datalakepath: servicodadosibge/cnaegrupos
+- mode: overwrite
+- key: 
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

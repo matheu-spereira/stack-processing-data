@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.tproduto
+- schedule: '* * * * 7'
+- query: 'select codcolprd, idprd, codigoprd, nomefantasia, codigoreduzido, ultimonivel, tipo, descricao, descricaoaux, codigoauxiliar, referenciaccf, numeroccf, referenciacp, descricaocp, pesoliquido, pesobruto, comprimento, espessura, largura, cor, observacao, dtcadastramento, campolivre, campolivre2, campolivre3, idprodutorelac, tempo, inativo, pesavel, dataultalteracao, idimagem, diametro, codusuario, tempovalidade, usuariocriacao, qtdevolume, codigoex, servicoprodutormofficina, produtoepi, produtobase, numerotributos, eperiodico, block, dataextra1, dataextra2, controladoporlote, mascaranumserie, usanumserie, validademinima, id, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, idncm, numeronbs, perigoso, indproducaoescalarelevante, codfilialint, percentmisturacombustivel, indicadororigem from dbo.tproduto'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/tproduto
+- mode: overwrite
+- key: idprd
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

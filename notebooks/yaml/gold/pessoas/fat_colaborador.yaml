@@ -1,0 +1,44 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+- query: ''
+- filter_full: ''
+- filter_partial: ''
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: gold
+  datalakepath: pessoas/fat_colaborador
+  mode: overwrite
+  key: id_matricula
+delta:
+- tablename: fat_colaborador
+- query: " select
+fat_colaborador.id_matricula,
+fat_colaborador.id_pessoa,
+fat_colaborador.cd_coligada,
+fat_colaborador.ds_unidade,
+fat_colaborador.ds_situacao,
+fat_colaborador.ds_funcao,
+fat_colaborador.cd_cargo,
+fat_colaborador.ds_cargo,
+fat_colaborador.hr_trabalho, 
+fat_colaborador.dt_admissao,
+fat_colaborador.dt_demissao,
+fat_colaborador.hr_semanais,
+fat_colaborador.hr_mensais
+from fat_colaborador "
+delta_table:
+- path: silver/corporerm/fat_colaborador
+  name: fat_colaborador

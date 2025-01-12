@@ -1,0 +1,82 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: sgt/fato_atendimentos
+- mode: overwrite
+- key: id
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+        CRProdutoRegional as cr_produto_regional,
+        ano,
+        codigoDNProdutoCategoria as nr_dn_produto_categoria,
+        codigoDNProdutoLinha as nr_dn_produto_linha,
+        codigoDNProdutoNacional as nr_dn_produto_nacional,
+        codigoOBAUnidadeOperacional as nr_oab_unidade_operacional,
+        cpfCnpjCliente as nr_cpf_cnpj_cliente,
+        descricaoProdutoCategoria as dsc_produto_categoria,
+        descricaoProdutoLinha as dsc_produto_linha,
+        descricaoProdutoNacional as dsc_produto_nacional,
+        descricaoProdutoRegional as dsc_produto_regional,
+        descricaoStatusAtendimento as dsc_status_atendimento,
+        descricaoUnidadeOperacional as dsc_unidade_operacional,
+        dia,
+        id,
+        idAtendimento as id_atendimento,
+        CASE 
+            WHEN idPorteCliente LIKE '%@nil%' THEN regexp_extract(idPorteCliente, '@nil":"([^"]+)', 1)
+            ELSE idPorteCliente 
+        END AS id_porte_cliente,
+        isCompartilhado as dsc_compartilhamento,
+        isEmRede as dsc_em_rede,
+        isEscopoIndefinido as dsc_escopo_indefinido,
+        isValorHora as dsc_valor_hora,
+        mes,
+        nomeCliente as nm_cliente,
+        CASE 
+            WHEN numeroAtendimento LIKE '%@nil%' THEN regexp_extract(numeroAtendimento, '@nil":"([^"]+)', 1)
+            ELSE numeroAtendimento 
+        END AS nr_atendimento,
+        CASE 
+            WHEN numeroDeFuncionarios LIKE '%@nil%' THEN 0
+            ELSE numeroDeFuncionarios 
+        END AS nr_de_funcionario,
+        numeroDeProducaoEstimada as nr_de_producao_estimada,
+        numeroDeReceitaEstimada as nr_de_receitas_estimada,
+        numeroDeRelatorioEstimado as nr_de_relatorio_estimado,
+        CASE 
+            WHEN porteCliente LIKE '%@nil%' THEN regexp_extract(porteCliente, '@nil":"([^"]+)', 1)
+            ELSE porteCliente 
+        END AS dsc_porte_cliente,
+        tituloAtendimento as dsc_titulo_atendimento,
+        vlrEconomico as vlr_economico,
+        vlrFinanceiro as vlr_financeiro
+    FROM 
+        atendimentossgt
+delta_table:
+- path: bronze/sgt/atendimento
+  name: atendimentossgt
+
+

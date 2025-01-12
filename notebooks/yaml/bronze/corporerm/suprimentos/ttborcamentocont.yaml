@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.ttborcamentocont
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idtborcamentocont, codcoltborcamento, codtborcamento, codcolconta, codconta, deboucred, percentual, codfilial, coddepartamento, codccusto, codhistp, complhistorico, classconta, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon from dbo.ttborcamentocont'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/ttborcamentocont
+- mode: overwrite
+- key: codcoligada,idtborcamentocont
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

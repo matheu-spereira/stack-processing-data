@@ -1,0 +1,36 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: gold
+- datalakepath: mercado/dim_unidade_operacional
+- mode: overwrite
+- key: cod_unidade_operacional
+delta:
+- tablename: ''
+- query: |
+    SELECT
+        *
+    FROM dim_unidade_operacional
+delta_table:
+- path: silver/dynamicscrm/dim_unidade_operacional
+  name: dim_unidade_operacional

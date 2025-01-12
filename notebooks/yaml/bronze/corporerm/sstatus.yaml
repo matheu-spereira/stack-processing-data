@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.sstatus
+- schedule: '* * * * 7'
+- query: 'select codcoligada, codstatus, descricao, codtipocurso, cucodstatuspl, plcodstatuscur, plcodstatusdisc, plcodtipoaluno, plindicatranc, cuconccurso, cuindicajubilado, cuindicatransf, cupermitematricpl, curso, dicontcrtes, dicreditocursado, diemcurso, dihistorico, diincalunodisc, disciplina, disponivelweb, disugestaomatricula, divalidapre, listagensweb, matriculaprovisoria, notasfaltasweb, plativo, plbloqfinanc, dibloqnotafalta, plblqaltsitmat, plcancelacontrato, pldiario, pldiscautomatica, pletivo, plexigecontrato, plincluirdisc, plmdstantigodisc, plrematricula, resultado, plpermitetrancamento, plprioridade, plorddiscperant, pllimitediscperant, plorddiscperpost, pllimitediscperpost, aprovado, diindicatranc, pldispenturmacao, peralumatricweb, peraluincdisc, peraluexcdisc, plcancelausuariocorpore, plcancelausuariobiblios, plcodstatusativ, contabcompetencia, enviaremailmudsitmat, templateenvioemail, idrelatorio, coligadarelatorio, plblqaltsitsemdoc, abatepostalterstatus, idft, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, diblqaltsitmatdisc, statuslms, diblqaltsitmatdiscprt, codexterno, plpreenchedtmatenccenso, custatusfluigcomunidade, distatusfluigcomunidade, plstatusfluigcomunidade, cuindicadesvinculacao, plvalinadimplmatricportal, exibequadroaviso, codcoligadarptpletivoemail, idrptpletivoemail, novorptpletivoemail, plcodstatusdiscitinerario, peraluincitinerario, peraluexcitinerario, plblqaltsitmatsemfiadoraprov, cudiplomadigitalsituacaomatric, pldiplomadigitalsituacaomatric, didiplomadigitalsituacaomatric, plprmmatitinerarioprtmenuexcl, permitealunocancelardiscportal, statusmatriculacanceldiscprt, motivomatdisccancelportal, plitblqaltsitmatitinerarioprt, peraltincitinermenuexcmatifprt, perexcitinerarmenuexcmatifprt from dbo.sstatus'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/sstatus
+- mode: overwrite
+- key: codcoligada,codstatus
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

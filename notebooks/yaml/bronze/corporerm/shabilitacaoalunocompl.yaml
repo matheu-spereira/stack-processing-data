@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.shabilitacaoalunocompl
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idhabilitacaofilial, ra, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, parfor, codcursosi, dtiniciosi, datainicial, datafinal, mtsi, codcurso, idmatricsi, pronatec, condaluno, articulacao, tipograt, numcalcado, numcamisa, infocurso, chsemanal, codmatriculascop, dataprevistasaida, dias, empresacomp, encaluno, ferias, horarios, [local], nomeemp, plano, pratica, registrodiploma, tipogratcur, tipodoca, datainiciala, datafinala, chcontratadaa, portaltransp, cnpjempatendida, cbo, situacaoaprendiz, dtafastamento from dbo.shabilitacaoalunocompl'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/shabilitacaoalunocompl
+- mode: overwrite
+- key: codcoligada,idhabilitacaofilial,ra
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

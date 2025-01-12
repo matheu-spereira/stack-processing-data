@@ -1,0 +1,36 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: mte/dim_cbo_familia
+- mode: upsert
+- key: CODIGO
+delta:
+- tablename: ''
+- query: |
+    SELECT
+        *
+    FROM compliance_cbo_familia 
+delta_table:
+- path: bronze/mte/cbofamilia
+  name: compliance_cbo_familia

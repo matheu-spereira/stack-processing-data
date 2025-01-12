@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.saluno
+- schedule: '* * * * 7'
+- query: 'select codcoligada, ra, codarea, codcarreira, codidioma, codtipoaluno, codinstdestino, codinstorigem, codcolcfo, codcfo, codparentcfo, codpessoaraca, codparentraca, codpessoa, codcursohist, codseriehist, obshist, identificador2, identificador3, anoingresso, anotacoes, codtipocurso, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, racad, ufracad, codsistec, pronatec, dadosacademicoscfo from dbo.saluno'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/saluno
+- mode: overwrite
+- key: codcoligada,ra
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

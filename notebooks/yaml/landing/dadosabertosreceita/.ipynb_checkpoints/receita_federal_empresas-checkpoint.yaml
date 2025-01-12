@@ -1,0 +1,32 @@
+type: arquivo
+chunksize: 
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: receita_federal_empresas
+- format:
+- url: https://dadosabertos.rfb.gov.br/CNPJ/dados_abertos_cnpj/
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: landing
+- datalakepath: dadosabertosreceita
+- mode: overwrite
+- key: 
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

@@ -1,0 +1,30 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+  query: ''
+  filter_full: ''
+  filter_partial: ''
+  delete_full: ''
+  delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: gold
+  datalakepath: orcamento/dim_centro_responsabilidade
+  mode: overwrite
+  key: codigocentrocusto,codigoitemcontabil
+delta:
+- tablename: dim_centro_responsabilidade
+- query: "select idcentrocusto,codigoitemcontabil,iditemcontabil,nmitemcontabil,iditemcontabilsuperior,codigotipoitemcontabil from dim_centro_responsabilidade "
+delta_table:
+- path: silver/sors/dim_centro_responsabilidade
+  name: dim_centro_responsabilidade 

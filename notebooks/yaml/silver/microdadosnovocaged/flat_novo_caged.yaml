@@ -1,0 +1,63 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: novocaged/flat_novo_caged
+- mode: overwrite
+- key: cd_municipio,cd_subclasse,cd_cbo_ocupacao,dsc_competencia_mov,cd_categoria,cd_grau_instrucao,dsc_idade,cd_raca,cd_sexo,cd_tipo_empregador, cd_tipo_estabelecimento, cd_tipo_movimentacao, cd_tipo_deficiencia, cd_ind_trab_intermitente, cd_ind_trab_parcial, cd_porte, cd_indicador_aprendiz,cd_fonte_novo_caged,cd_indicador_fora_do_prazo,cd_unidade_salario_codigo,dsc_competencia_dec,cd_regiao,cd_uf, cd_secao,vl_salario_fixo,vl_salario,vl_horas_contratuais,dsc_saldo_movimentacao
+delta:
+- tablename: ''
+- query: |
+    select distinct
+        competenciamov AS dsc_competencia_mov,
+        regiao AS cd_regiao,
+        uf AS cd_uf,
+        municipio AS cd_municipio,
+        secao AS cd_secao,
+        subclasse AS cd_subclasse,
+        saldomovimentacao AS dsc_saldo_movimentacao,
+        cbo2002ocupacao AS cd_cbo_ocupacao,
+        categoria AS cd_categoria,
+        graudeinstrucao AS cd_grau_instrucao,
+        idade AS dsc_idade,
+        horascontratuais AS vl_horas_contratuais,
+        racacor AS cd_raca,
+        sexo AS cd_sexo,
+        tipoempregador AS cd_tipo_empregador,
+        tipoestabelecimento AS cd_tipo_estabelecimento,
+        tipomovimentacao AS cd_tipo_movimentacao,
+        tipodedeficiencia AS cd_tipo_deficiencia,
+        indtrabintermitente AS cd_ind_trab_intermitente,
+        indtrabparcial AS cd_ind_trab_parcial,
+        salario AS vl_salario,
+        tamestabjan AS cd_porte,
+        indicadoraprendiz AS cd_indicador_aprendiz,
+        origemdainformacao AS cd_fonte_novo_caged,
+        competenciadec AS dsc_competencia_dec,
+        indicadordeforadoprazo AS cd_indicador_fora_do_prazo,
+        unidadesalariocodigo AS cd_unidade_salario_codigo,
+        valorsalariofixo AS vl_salario_fixo
+    from compliance_caged where uf = '32'
+delta_table:
+- path: bronze/novocaged/microdadosnovocaged
+  name: compliance_caged

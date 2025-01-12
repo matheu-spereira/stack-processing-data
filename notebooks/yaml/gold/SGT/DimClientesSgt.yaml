@@ -1,0 +1,36 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: gold
+- datalakepath: sgt/dim_clientes
+- mode: overwrite
+- key: nr_cpf_cnpj
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+        *
+    FROM sgt_clientes  
+delta_table:
+- path: silver/sgt/dim_clientes
+  name: sgt_clientes

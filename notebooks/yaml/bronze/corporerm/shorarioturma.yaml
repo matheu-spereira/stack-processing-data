@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.shorarioturma
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idhorarioturma, codhor, idturmadisc, codfilial, codpredio, codsala, datainicial, datafinal, locacao, tipoaula, codbloco, codtiposala, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, idhorarioturmavinc, codsubturma, scientiaactivityhostkey, codhorarioturma, urlaulaonline from dbo.shorarioturma'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/shorarioturma
+- mode: overwrite
+- key: codcoligada,idhorarioturma
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

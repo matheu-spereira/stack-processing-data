@@ -1,0 +1,73 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: gold
+- datalakepath: compliance/flat_receita_federal
+- mode: overwrite
+- key: cnpj
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+        CONCAT(
+            e.dsc_cnpj_basico,
+            e.dsc_cnpj_ordem,
+            e.dsc_cnpj_dv
+        ) AS cnpj,
+        e.dsc_situacao_cadastral,
+        e.cd_cnae_fiscal_principal,
+        e.cd_cnae_fiscal_secundaria,
+        j.nm_razao_social,
+        j.dsc_porte_empresa,
+        c.descricao AS dsc_cnae_fiscal_principal,
+        m.descricao AS dsc_municipio,
+        e.nm_fantasia, 
+        mot.descricao AS dsc_motivo_situacao_cadastral,
+        e.dsc_telefone_1,
+        e.dsc_telefone_2,
+        e.dsc_matriz_filial
+    FROM compliance_receita_estabelecimentos e
+    LEFT JOIN compliance_receita_empresas j
+        ON e.dsc_cnpj_basico = j.cd_cnpj_basico
+    LEFT JOIN compliance_receita_motivos mot
+        ON e.cd_motivo_situacao_cadastral = mot.codigo
+    LEFT JOIN compliance_receita_paises p
+        ON e.cd_pais = p.codigo
+    LEFT JOIN compliance_receita_cnaes c
+        ON e.cd_cnae_fiscal_principal = c.codigo
+    LEFT JOIN compliance_receita_municipios m
+        ON e.cd_municipio = m.codigo
+    WHERE e.uf = 'ES';
+delta_table:
+- path: silver/dadosabertosreceita/flat_estabelecimentos
+  name: compliance_receita_estabelecimentos
+- path: silver/dadosabertosreceita/dim_empresas
+  name: compliance_receita_empresas
+- path: silver/dadosabertosreceita/dim_motivos
+  name: compliance_receita_motivos
+- path: silver/dadosabertosreceita/dim_paises
+  name: compliance_receita_paises
+- path: silver/dadosabertosreceita/dim_cnaes
+  name: compliance_receita_cnaes
+- path: silver/dadosabertosreceita/dim_municipios
+  name: compliance_receita_municipios

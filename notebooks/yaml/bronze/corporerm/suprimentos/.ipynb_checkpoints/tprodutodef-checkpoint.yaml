@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.tprodutodef
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idprd, codfab, numnofabric, preco1, preco2, preco3, preco4, preco5, databasepreco1, databasepreco2, databasepreco3, databasepreco4, databasepreco5, codmoepreco1, codmoepreco2, codmoepreco3, codmoepreco4, codmoepreco5, codundcontrole, codcpg, estoqueminimo1, estoquemaximo1, estoqueminimo2, estoquemaximo2, estoqueminimo3, estoquemaximo3, pontodepedido1, pontodepedido2, pontodepedido3, percentcomissao, descontocompra, descontovenda, custounitario, dtcustounitario, codtip, codtb1fat, codtb2fat, codtb3fat, codtb4fat, codtb5fat, margembrutalucro, saldogeralfisico, percentcomissao2, codundcompra, codundvenda, recalccustomedio, customedio, datacustomedio, dtultimacompra, tipoconta, saldogeralfinanc, dtultimacomprab, custoreposicaob, percentcomissao3, custoreposicao, localdescarga, codcolcontager, codcontager, usanumdecpreco, numdecpreco, multiploprd, codtipoapl, coddief, toleranciasup, toleranciainf, codgrupo, tributacaoecf, tipocalculocusto, custopadrao, repassefabric, codgrupobem, grpfaturamento, tolinfpreco, tolsuppreco, multiploqtdecomprada, multiploprdvenda, codtborcamento, idprdfiscals, idprdfiscale, codcoltborcamento, recalcsaldo1, recalcsaldo2, recalcsaldo3, recalcsaldo4, recalcsaldo5, recalcsaldo6, recalcsaldo7, recalcsaldo8, recalcsaldo9, recalcsaldo10, dataprimeiraalt, idgrd, codgrd, codcoluna, codlinha, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, exigefornqualificado, prodvisivelclicbusiness, idmarca, codcolmarca, codundtributavel, fatorconversaotributavel, registroanvisa, perglpprod, perglgnnacprod, perglgnimpprod, valorpartida, codundtributavelint, fatorconversaotributavelint, prdisentofunrural, codtborcamentoreceita, codcoltborcamentoreceita, motivoisencaoanvisa, idpatrimonio from dbo.tprodutodef'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/tprodutodef
+- mode: overwrite
+- key: codcoligada,idprd
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

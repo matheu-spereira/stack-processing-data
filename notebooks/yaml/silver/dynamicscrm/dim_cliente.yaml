@@ -1,0 +1,38 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: dynamicscrm/dim_cliente
+- mode: upsert
+- key: cod_cliente
+delta:
+- tablename: ''
+- query: |
+    SELECT
+        accountid AS cod_cliente,
+        findes_cnpj AS nr_documento_cliente,
+        findes_razaosocial AS nm_cliente
+    FROM accounts
+delta_table:
+- path: bronze/dynamicscrm/accounts
+  name: accounts

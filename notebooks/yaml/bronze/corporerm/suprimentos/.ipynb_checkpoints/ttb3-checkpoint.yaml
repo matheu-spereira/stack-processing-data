@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.ttb3
+- schedule: '* * * * 7'
+- query: 'select codcoligada, codtb3fat, descricao, comissao, campolivre, codcolcontager, codcontager, inativo, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon from dbo.ttb3'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/ttb3
+- mode: overwrite
+- key: codcoligada,codtb3fat
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

@@ -1,0 +1,41 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: pessoas/dim_funcionarios
+- mode: overwrite
+- key: funcionario_id
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+        funcionario_id,
+        nome,
+        data_nascimento,
+        cargo_id,
+        departamento_id
+    FROM 
+        funcionarios
+delta_table:
+- path: bronze/pessoas/funcionarios
+  name: funcionarios

@@ -1,0 +1,38 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: dynamicscrm/dim_unidade_operacional
+- mode: overwrite
+- key: cod_unidade_operacional
+delta:
+- tablename: ''
+- query: |
+    SELECT DISTINCT
+        quotedetails._findes_unidadeexecutoraid_value AS cod_unidade_operacional,
+        quotedetails._findes_unidadeexecutoraid_value_name AS dsc_unidade_operacional
+    FROM quotedetails
+    WHERE quotedetails._findes_unidadeexecutoraid_value != 'None'
+delta_table:
+- path: bronze/dynamicscrm/quotedetails
+  name: quotedetails

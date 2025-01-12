@@ -1,0 +1,37 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: gold
+- datalakepath: pessoas/dim_cargos
+- mode: overwrite
+- key: cargo_id
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+        *
+    FROM 
+        cargos
+delta_table:
+- path: silver/pessoas/dim_cargos
+  name: cargos

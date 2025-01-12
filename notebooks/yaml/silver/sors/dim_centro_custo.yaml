@@ -1,0 +1,30 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+  query: ''
+  filter_full: ''
+  filter_partial: ''
+  delete_full: ''
+  delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: silver
+  datalakepath: sors/dim_centro_custo
+  mode: overwrite
+  key: idcentrocusto
+delta:
+- tablename: dim_centro_custo
+- query: " select distinct idcentrocusto,codigoentidade,initcap(nmcentrocusto) as nmcentrocusto,sigla from centrocusto "
+delta_table:
+- path: bronze/sors/centrocusto
+  name: centrocusto

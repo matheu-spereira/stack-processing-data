@@ -1,0 +1,81 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: gold
+- datalakepath: SGT/FatoAtendimentosSgt
+- mode: overwrite
+- key: id
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+        c.id,
+        c.id_atendimento,
+        c.nr_atendimento,
+        c.dsc_titulo_atendimento,
+        c.dsc_status_atendimento,
+        c.dia,
+        c.mes,
+        c.ano,
+        c.nr_cpf_cnpj_cliente,
+        c.nm_cliente,
+        c.id_porte_cliente,
+        c.dsc_porte_cliente,
+        CASE WHEN c.nr_de_funcionario = TRUE THEN 0 ELSE c.nr_de_funcionario END AS nr_de_funcionario,
+        c.dsc_produto_regional,
+        c.cr_produto_regional,
+        c.nr_dn_produto_nacional,
+        c.dsc_produto_nacional,
+        c.nr_dn_produto_categoria,
+        c.dsc_produto_categoria,
+        c.nr_dn_produto_linha,
+        c.dsc_produto_linha,
+        c.nr_oab_unidade_operacional,
+        c.dsc_unidade_operacional,
+        c.nr_de_producao_estimada,
+        c.nr_de_relatorio_estimado,
+        c.nr_de_receitas_estimada,
+        c.vlr_financeiro,
+        c.vlr_economico,
+        c.dsc_compartilhamento,
+        c.dsc_em_rede,
+        c.dsc_escopo_indefinido,
+        c.dsc_valor_hora,
+        --c.dt_carga,
+        TO_DATE(a.dt_emissao) AS id_data_calendario,
+        a.dt_emissao,
+        a.dt_negociacao,
+        a.dt_aceitacao,
+        a.dt_execucao,
+        a.dt_recusa,
+        a.dt_conclusao,
+        a.dt_cancelamento
+    FROM sgt_atendimentos c
+    LEFT JOIN sgt_atendimentos_integracoes a
+    ON c.id_atendimento = a.id_atendimento
+    WHERE id IS NOT NULL;
+delta_table:
+- path: silver/SGT/AtendimentosIntegracoesSgt
+  name: sgt_atendimentos_integracoes
+- path: silver/SGT/AtendimentoSgt
+  name: sgt_atendimentos

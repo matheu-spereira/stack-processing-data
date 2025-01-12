@@ -1,0 +1,136 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: servicodadosibge/dim_ibge_cnae
+- mode: overwrite
+- key: sk_cnae
+delta:
+- tablename: ''
+- query: |
+    SELECT *
+    FROM (
+        SELECT DISTINCT
+            id AS sk_cnae,
+            INITCAP(descricao) AS dsc_classe,
+            grupo.descricao AS dsc_grupo,
+            grupo.divisao.descricao AS dsc_divisao,
+            grupo.divisao.secao.descricao AS dsc_secao,
+            '' AS dsc_subclasse,
+            'CLASSE' AS dsc_nivel,
+            '' AS sk_cnae_longo,
+            '' AS dsc_contribuinte,
+            '' AS dsc_industria
+        FROM 
+            compliance_cnae_classes
+        
+        UNION ALL
+        
+        SELECT DISTINCT
+            id AS sk_cnae,
+            '' AS dsc_classe,
+            '' AS dsc_grupo,
+            descricao AS dsc_divisao,
+            secao.descricao AS dsc_secao,
+            '' AS dsc_subclasse,
+            'DIVISÃO' AS dsc_nivel,
+            '' AS sk_cnae_longo,
+            '' AS dsc_contribuinte,
+            '' AS dsc_industria
+        FROM 
+            compliance_cnae_divisoes
+        
+        UNION ALL
+        
+        SELECT DISTINCT
+            id AS sk_cnae,
+            '' AS dsc_classe,
+            descricao AS dsc_grupo,
+            divisao.descricao AS dsc_divisao,
+            divisao.secao.descricao AS dsc_secao,
+            '' AS dsc_subclasse,
+            'GRUPO' AS dsc_nivel,
+            '' AS sk_cnae_longo,
+            '' AS dsc_contribuinte,
+            '' AS dsc_industria
+        FROM 
+            compliance_cnae_grupos
+        
+        UNION ALL
+        
+        SELECT DISTINCT
+            id AS sk_cnae,
+            '' AS dsc_classe,
+            '' AS dsc_grupo,
+            '' AS dsc_divisao,
+            descricao AS dsc_secao,
+            '' AS dsc_subclasse,
+            'SECAO' AS dsc_nivel,
+            '' AS sk_cnae_longo,
+            '' AS dsc_contribuinte,
+            '' AS dsc_industria
+        FROM 
+            compliance_cnae_secoes
+        
+        UNION ALL
+        
+        SELECT DISTINCT
+            id AS sk_cnae,
+            INITCAP(classe.descricao) AS dsc_classe,
+            classe.grupo.descricao AS dsc_grupo,
+            classe.grupo.divisao.descricao AS dsc_divisao,
+            classe.grupo.divisao.secao.descricao AS dsc_secao,
+            INITCAP(descricao) AS dsc_subclasse,
+            'SUBCLASSE' AS dsc_nivel,
+            '' AS sk_cnae_longo,
+            '' AS dsc_contribuinte,
+            '' AS dsc_industria
+        FROM 
+            compliance_cnae_subclasses     
+
+        UNION ALL
+        SELECT
+        1 AS sk_cnae,
+        '1' AS dsc_classe,
+        '1' AS dsc_grupo,
+        '1' AS dsc_divisao,
+        '1' AS dsc_secao,
+        '1' AS dsc_subclasse,
+        '1' AS dsc_nivel,
+        '1' AS sk_cnae_longo,
+        '1' AS dsc_contribuinte,
+        '1' AS dsc_industria
+        
+    ) AS combined_results
+    WHERE sk_cnae IS NOT NULL;
+delta_table:
+- path: bronze/servicodadosibge/cnaeclasses
+  name: compliance_cnae_classes
+- path: bronze/servicodadosibge/cnaedivisoes
+  name: compliance_cnae_divisoes
+- path: bronze/servicodadosibge/cnaegrupos
+  name: compliance_cnae_grupos
+- path: bronze/servicodadosibge/cnaesecoes
+  name: compliance_cnae_secoes
+- path: bronze/servicodadosibge/cnaesubclasses
+  name: compliance_cnae_subclasses

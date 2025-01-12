@@ -1,0 +1,33 @@
+type: api
+chunksize: 10000
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: sti_atendimentos_sgt
+- origin: sgt_api
+- url: https://wso2.isitics.com
+- endpoint: /reports/v1.0.0/atendimentos
+- tag: 
+sink:
+- datalakezone: bronze
+- datalakepath: sgt/atendimento
+- mode: overwrite
+- key: 
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

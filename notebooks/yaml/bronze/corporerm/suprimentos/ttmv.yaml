@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.ttmv
+- schedule: '* * * * 7'
+- query: 'select codtmv, nome, codigomovfixo, tipoemitente, codcfoemissao, nomelocalsaida, edicaolocalsaida, tipodestin, edicaodestin, codcfodestin, tipoidentific, mascaranumeromov, edicaonumeromov, buscarnumeromov, edicaoserie, segnumsequencial, labelnumpedido, edicaonumpedido, numeropedido, labelnumpedcf, edicaonumpedcf, numeropedcf, edicaonatureza, tiponaturezanota, edicaonatureza2, codmodelodocfisc, tipoicms, tipoipi, nomedatasaida, edicaosaida, datasaida, nomedatadigit, edicaodigit, datadigit, nomedata, edicaodata, datadata, edicaorepr, codrpr, edicaocomisrepr, perccomisrepr, edicaotransp, edicaotransp2, codtra, codtra2, edicaoviatransp, viatransporte, editadadosplaca, edicaoobservacao, observacao, usamensagemmov1, codmenmov1, usamensagemmov2, codmenmov2, edicaohistormov, edicaomarcavol, marcavol, edicaoqtdevol, qtdemoveasoma, edicaoespecievol, especievol, edicaopesoliq, edicaopesobru, pesoliqmoveasoma, pesobrumoveasoma, confitempesozero, edicaocondpgto, alteracondpgto, codcpg, edicaotb1fatmov, codtb1fatmov, edicaotb2fatmov, codtb2fatmov, edicaotb3fatmov, codtb3fatmov, edicaotb4fatmov, codtb4fatmov, edicaotb5fatmov, codtb5fatmov, edicaotb1flxmov, codtb1flxmov, edicaotb2flxmov, codtb2flxmov, edicaotb3flxmov, codtb3flxmov, edicaotb4flxmov, codtb4flxmov, edicaotb5flxmov, codtb5flxmov, usacampolivmov1, nomecampolivmov1, campolivmov1, usacampolivmov2, nomecampolivmov2, campolivmov2, usacampolivmov3, nomecampolivmov3, campolivmov3, edicaofrete, tipofrete, informaciffob, codmenfretecif, codmenfretefob, edicaoseguro, tiposeguro, edicaodescmov, tipodescmov, descmaximomov, codmendescmov, edicaodespmov, tipodespmov, codmendespmov, usadespfinanc, nomeextra1, edicaoextra1, tipoextra1, nomeextra2, edicaoextra2, tipoextra2, edicaoadiantped, databasemov, codmoeda, nomesubtotal, editavalfinlivre, usatrbmov, editatrbmov, editabctrbmov, numtrbselecmov, tipolancamento, fatura, faturamanutencao, edicaolan, tipodocgerado, idrelatfat, idrelatdup, idrelatmov, impinstfat, impinstdup, impinstdoc, dataemissaolan, dataprevisaolan, data1lan, data2lan, data3lan, numeracaolan, contabillan, historicolan, codmoedalan, codindexadorlan, buscarcaixalan, baixarlan, percentdesclan, percentjuroslan, statuscnablan, comandocnablan, aceitecnablan, instcod1cnablan, instcod2cnablan, carteiracnablan, associasegnumlan, databasevenclan, capitalmensallan, pagoureclan, numeroprecovend, flagdatamov, geramovped, geramovautoped, codtmvped, baixageracaoped, confirmabaixaped, cancelalctped, controlasenhaped, precocomdescped, precomovgerped, cancelacommovped, numeroversaotmov, alteratipolan, codtrbrateiolan, usavorcccusto, usavorcfisccttip, avivorcccusto, avivorcfisccttip, avicreditoclifor, editatroco, codven1, codven2, codven3, codven4, edicaoven1, edicaocomisven1, perccomisven1, edicaoven2, edicaocomisven2, perccomisven2, edicaoven3, edicaocomisven3, perccomisven3, edicaoven4, edicaocomisven4, perccomisven4, codcolcfoemissao, codcolcfodestin, aplicacaofrm, afetacustorep, afetacustorepb, codcolcxa, editaccusto, tipotransffat, codccusto, codfrmliquido, codfrmsubtotal, codfrmbruto, codfrmcustorep, codfrmcustorepb, codfrmprecovend, codfrmrateiolan, codcxalan, codcoligada, codtdolannf, codtdolandup, renumerarimpressao, usarevc, codevento, editaeventocont, cadastracheqlan, edicaoentrega, dataentrega, integradofactor, edicaodepartamento, marcaritensfatped, naoagruparitensped, edicaolocalestoque, codfilial, codloc, tipohistorico, tipomovtransf, numeromaxparcelas, valorminparcela, usardevolucao, tipodevolucao, relacitensfaturamento, dataorcamento, tabbaseorcamento, aceitanumserie, usanumserieseq, coddeptodefaultmov, coddeptodefaultitem, codcolreldup, codcolrelfat, codcolrelmov, idnat, idnat2, classificacao, codmenfreteterceiro, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, idformapagtobaixarlan, edicaoendcoletaentregadest, desconsiderarsn from dbo.ttmv'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/ttmv
+- mode: overwrite
+- key: codcoligada,codtmv
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

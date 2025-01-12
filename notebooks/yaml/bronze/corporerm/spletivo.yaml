@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.spletivo
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idperlet, codperlet, descricao, diasletivos, cargahoraria, obs, encerrado, dtinicio, dtfim, dtprevista, calendario, codfilial, codtipocurso, encerradopgto, idperletant, dtcompetenciainicial, dtcompetenciafinal, idft, dtcompetenciainicialmov, dtcompetenciafinalmov, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, encerradocontabil, exibirportal, encerradofinanceiro, dtvalidadecarteirinha from dbo.spletivo'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/spletivo
+- mode: overwrite
+- key: codcoligada,idperlet
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

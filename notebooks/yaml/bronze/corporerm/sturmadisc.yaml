@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.sturmadisc
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idturmadisc, codfilial, codturma, idperlet, coddisc, codccusto, aplicacao, codformula, codturno, codpredio, codsala, codevento, codplanilha, idhabilitacaofilial, numaulasem, duracaoaula, maxalunos, codtipocurso, dtinicial, dtfinal, minalunos, customedio, discopcional, prealocacao, codeventofalta, codeventoatraso, nome, tipo, codcampus, codbloco, adicionalnoturno, adicionalextra, vagascalouros, nummaxalunooutroscursos, disponivelmatricula, vagaslistaespera, numcreditoscob, valorcredito, complementodisc, dtiniciomatpres, dtfimmatpres, dtiniciomatportal, dtfimmatportal, idft, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, ativa, gerencial, nummaxalunosoutrasmtzaplicadas, decimais, aliascomunidade, compartilhada, espelho, mascaraturmaespelho, nummaxalunooutracoligada, coditinerarioformativo, codagenda, urlaulaonline, tiponota, origemcriacao from dbo.sturmadisc'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/sturmadisc
+- mode: overwrite
+- key: codcoligada,idturmadisc
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

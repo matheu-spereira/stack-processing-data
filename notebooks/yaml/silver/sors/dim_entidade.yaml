@@ -1,0 +1,30 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+  query: ''
+  filter_full: ''
+  filter_partial: ''
+  delete_full: ''
+  delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: silver
+  datalakepath: sors/dim_entidade
+  mode: overwrite
+  key: codigo
+delta:
+- tablename: dim_entidade
+- query: "select codigo,nome,sigla,cnpj,codigoreservado,ativa from entidade"
+delta_table:
+- path: bronze/sors/entidade
+  name: entidade

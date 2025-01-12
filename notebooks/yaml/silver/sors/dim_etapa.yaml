@@ -1,0 +1,30 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+  query: ''
+  filter_full: ''
+  filter_partial: ''
+  delete_full: ''
+  delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: silver
+  datalakepath: sors/dim_etapa
+  mode: overwrite
+  key: codigoetapa
+delta:
+- tablename: dim_etapa
+- query: "select distinct codigoetapa,nomeetapa from entidadeexercicioetapa"
+delta_table:
+- path: bronze/sors/entidadeexercicioetapa
+  name: entidadeexercicioetapa

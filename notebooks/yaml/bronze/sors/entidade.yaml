@@ -1,0 +1,32 @@
+type: database
+chunksize: 0
+database:
+- tablename: dbo.entidade
+- schedule: '* * * * *'
+- state: finalizado
+- page: 0
+- query: select codigo,nome,sigla,cnpj,codigoreservado,ativa from dbo.entidade
+- filter_full: ''
+- filter_partial: ''
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: sors/entidade
+- mode: overwrite
+- key: codigo
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

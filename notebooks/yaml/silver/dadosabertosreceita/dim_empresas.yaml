@@ -1,0 +1,44 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: dadosabertosreceita/dim_empresas
+- mode: overwrite
+- key: cd_cnpj_basico, nm_razao_social
+delta:
+- tablename: ''
+- query: |
+    SELECT
+        cnpj_basico AS cd_cnpj_basico,
+        INITCAP(razao_social) AS nm_razao_social,
+        CASE 
+            WHEN porte_empresa = '00' THEN 'Não Informado'
+            WHEN porte_empresa = '01' THEN 'Micro Empresa'
+            WHEN porte_empresa = '03' THEN 'Empresa de Pequeno Porte'
+            WHEN porte_empresa = '05' THEN 'Demais'
+            ELSE 'Outros'
+        END AS dsc_porte_empresa
+    FROM compliance_receita_empresas
+delta_table:
+- path: bronze/dadosabertosreceita/empresas
+  name: compliance_receita_empresas

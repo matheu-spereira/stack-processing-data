@@ -1,0 +1,31 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.pcodinstrucao
+- schedule: '* * * * 7'
+- query: select codcliente, codinterno, descricao, podealterar, reccreatedby, reccreatedon,
+    recmodifiedby, recmodifiedon from dbo.pcodinstrucao
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/pcodinstrucao
+- mode: overwrite
+- key: codcliente
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

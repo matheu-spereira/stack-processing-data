@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.scurso
+- schedule: '* * * * 7'
+- query: 'select codcoligada, codcurso, codescola, codarea, nome, complemento, codcurinep, decreto, regcontrato, descricao, codtipocurso, cfgmatricula, habilitacao, capes, curpresdist, codmodalidadecurso, mascaraturma, idft, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, ideixotecnologico, tipooferta, enviarcenso from dbo.scurso'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/scurso
+- mode: overwrite
+- key: codcoligada,codcurso
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

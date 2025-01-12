@@ -1,0 +1,65 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+  query: ''
+  filter_full: ''
+  filter_partial: ''
+  delete_full: ''
+  delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: silver
+  datalakepath: sors/fat_lancamento
+  mode: overwrite
+  key: codigoorcamento,codigo,codigoitemcontabil,ano,mes
+delta:
+- tablename: fat_lancamento
+- query: |
+    select
+      entidadeexercicioetapa.codigoetapa,
+      entidadeexercicioetapa.codigostatus,
+      orcamento.codigoentidade,      
+      centrocusto.idcentrocusto,
+      orcamento.codigocr,
+      orcamentovalor.codigoorcamento,
+      orcamento.ano,
+      orcamentovalor.mes,
+      orcamento.codigo,
+      orcamento.codigoconta,
+      cr.codigoitemcontabil,
+      concat(
+        lpad(cast(1 as string), 2, '0'), '/', 
+        lpad(cast(orcamentovalor.mes as string), 2, '0'), '/', 
+        cast(orcamento.ano as string)
+      ) as data_lancamento,      
+      --right('0' + cast(1 as varchar(2)), 2) + '/' + right('0' + cast(orcamentovalor.mes as varchar(2)), 2) + '/' +  cast(orcamento.ano as varchar(4)) as data_lancamento,
+      orcamentovalor.valor 
+    from orcamentovalor
+    inner join orcamento on orcamento.codigo = orcamentovalor.codigoorcamento and orcamento.dataexclusao is null and orcamento.tipo = 'OR'
+    inner join cr on cr.codigo = orcamento.codigocr and cr.dataexclusao is null
+    inner join centrocusto on centrocusto.Codigo = cr.CodigoCentroCusto
+    inner join entidadeexercicioetapa ON entidadeexercicioetapa.codigoentidade = orcamento.codigoentidade 
+        AND entidadeexercicioetapa.ano = orcamento.ano 
+        AND entidadeexercicioetapa.codigoetapa = orcamento.etapainclusao 
+        AND entidadeexercicioetapa.codigostatus <= 5  
+delta_table:
+- path: bronze/sors/orcamentovalor
+  name: orcamentovalor
+- path: bronze/sors/orcamento
+  name: orcamento
+- path: bronze/sors/cr
+  name: cr    
+- path: bronze/sors/centrocusto
+  name: centrocusto      
+- path: bronze/sors/entidadeexercicioetapa
+  name: entidadeexercicioetapa  

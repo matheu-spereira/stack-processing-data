@@ -1,0 +1,38 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: dynamicscrm/fat_cotacao
+- mode: overwrite
+- key: cod_proposta
+delta:
+- tablename: ''
+- query: |
+    SELECT
+        TO_DATE(closedon_name, 'dd/MM/yyyy') AS dt_finalizacao,
+        TO_DATE(SUBSTRING(createdon_name, 1, 10), 'dd/MM/yyyy') AS dt_inicio,
+        quoteid AS cod_proposta
+    FROM quotes
+delta_table:
+- path: bronze/dynamicscrm/quotes
+  name: quotes

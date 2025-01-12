@@ -1,0 +1,96 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.pfunc
+- schedule: '* * * * 7'
+- query: 'select codcoligada, chapa, nrofichareg, codrecebimento, codsituacao, codtipo,
+    codsecao, codfuncao, codsindicato, jornada, codhorario, nrodepirrf, nrodepsalfam,
+    dtbase, salario, situacaofgts, dtopcaofgts, contafgts, saldofgts, dtsaldofgts,
+    contribsindical, aposentado, temmais65anos, ajudacusto, percentadiant, arredondamento,
+    dataadmissao, tipoadmissao, dttransferencia, motivoadmissao, temprazocontr, fimprazocontr,
+    datademissao, tipodemissao, motivodemissao, dtdesligamento, dtultimomovim, dtpagtorescisao,
+    codsaquefgts, temavisoprevio, dtavisoprevio, nrodiasaviso, dtvencferias, inicprogferias1,
+    fimprogferias1, querabono, quer1aparc13o, nrodiasadiantfer, evtadiantferias, feriascoletivas,
+    nrodiasferias, nrodiasabono, inicprogferias2, fimprogferias2, saldoferias, saldoferiasant,
+    saldoferantaux, obsferias, dtpagtoferias, dtavisoferias, ndiaslicrem1, ndiaslicrem2,
+    dtiniciolicenca, mediasalmatern, situacaorais, contapagamento, membrosindical,
+    vinculorais, usavaletransp, diasuteismes, diasutmeioexp, diasutproxmes, diasutproxmeio,
+    diasutrestantes, diasutrestmeio, mudouendereco, mudoucarttrab, antigacarttrab,
+    antigaseriecart, mudounome, antigonome, mudoupis, antigopis, mudouchapa, antigachapa,
+    mudouadmissao, antigadtadm, antigovinculo, antigotipofunc, antigotipoadm, mudoudtopcao,
+    antigadtopcao, mudousecao, antigasecao, mudoudtnascim, antigadtnascim, faltaalterfgts,
+    deduzirrf65, pisparafgts, ultimorecalculodata, ultimorecalculohora, descontaavisoprevio,
+    codfilial, nome, indiniciohor, pispasep, dtcadastropis, codpessoa, codbancofgts,
+    codbancopagto, codagenciapagto, codbancopis, rescisaocalculada, opbancaria, membrocipa,
+    usasalcomposto, regatual, numvezesdescemprestimo, datainiciodescemprestimo, gruposalarial,
+    jornadamensal, prevdisp, codocorrencia, codcategoria, classecontrib, codequipe,
+    esupervisor, integrcontabil, integrgerencial, usacontroledesaldo, ci, mudouci,
+    antigoci, periodorescisao, codgrpquiosque, fgtsmesantrecolgrfp, codnivelsal, trabalhounademissao,
+    nrodiasferiasjornred, possuialvaramenor16, datarescisao, situacaoinss, dtaposentadoria,
+    codtabelasalarial, temdeducaocpmf, nrodiasferiascorridos, nrodiasabonocorridos,
+    posicaoabono, regimerevezamento, queradiantamento, dtproxaquisferias, codcolfornec,
+    codfornecedor, isentoirrf, anocomptransf, mescomptransf, nroperiodotransf, tipoaposentadoria,
+    repoevaga, saldofgtsreal, rescisaoprecisarecalc, id, benefpontos, contribassoc1ocorrcnpj,
+    contribassoc2ocorrcnpj, contribassistcnpj, contribconfedcnpj, contribassoc1ocorrvalor,
+    contribassoc2ocorrvalor, contribassistvalor, contribconfedvalor, localtrabcodmuncipio,
+    meseshoraextras, mesesgratificacao, mesesdissidiocoletivo, indicadorsindicalizado,
+    dtultimomovimpgtoextras, fimprazoprorrogcontr, reccreatedby, reccreatedon, recmodifiedby,
+    recmodifiedon, codcoligadaorigem, chapaorigem, numerocartaosus, feriasfinalizadasproxmes,
+    indsimples, tpcontabancaria, nrprocjud, residenciapropria, residenciarecursosfgts,
+    tpregimeprev, indadmissao, tiporeintegracao, datareintegracao, dataretornoefetivo,
+    nroleianistia, nroprocessojudicial, naturezaestagio, codnivelestagio, areaatuacaoestagio,
+    numeroapoliceestagio, dtprevterminoestagio, codinstituicaoensinoestagio, codagenteintegracaoestagio,
+    cpfcoordenadorestagio, nomecoordenadorestagio, cnpjempresaorigem, dtadmissaoempresaorigem,
+    matriculaempresaorigem, codcategoriaempresaorigem, tiporeducaoaviso, formareducaoaviso,
+    recebsegdesemp, motivotrabtemp, chapasubstrabtemp, motivocancelamentoaviso, dtcancelamentoaviso,
+    nroatestadoobito, nroprocessotrab, observacaorescisao, observacaoavisoprevio,
+    carregouavisoprevio, descricaosalvariavel, obscancelamentoaviso, sucessaovinculo,
+    cnpjempresaanterior, matriculaanterior, dtiniciovinculo, observacaosucessao, transferenciasucessao,
+    situacaoirrf, indpagtojuizo, dtdesligamentoreint, apmisto_dtavtrab, apmisto, feriasdiasuteis,
+    feriassaldodiasuteis, iddadosresid, sequenciatransf, codbancopagto2, codagenciapagto2,
+    contapagamento2, opbancaria2, tpcontabancaria2, codigoreceita3533, matriculaesocial,
+    motivotransferencia, anoscontribinss, codorgorides, codregjuri, codccusto, iditemcontabil,
+    idclassevalor, tiporegimejornada, dispensadoaviso, cnpjempresasucessora, justificativatrabtemp,
+    tpinclusaocontrato, tempoparcial, cotapcd, coltomadortemp, codigotomadortemp,
+    dtdemissaoprevista, justificativaprorrogtemp, dtavisopreviotrab, temclauasseg,
+    cpfsubstrabtemp, tpinscricaotemp, nroinscritemp, tipoavisoprevio, codcategoriaesocial,
+    codtipocontrato, esocialfuncaoconf, codfuncaoconf, motivoavisopreviotrab, codcategoriatrabcedido,
+    cnpjcedente, matriculacedente, dataadmissaocedente, tiporegimetrabalhistacedido,
+    tiporegimeprevidenciariocedido, infoonuscessao, tipocontratoprazo, esocialnatatividade,
+    motivosaidatransferencia, codsindicatofiliacao, coligadaanteriortransf, chapaanteriortransf,
+    demissaodesempisulfinad, prefixoperiodoesocial, dtfimquarentena, tipocontprazodeterminado,
+    motivocontprazodeterminado, tipoadesaobem, dtacordobem, percentualreducaobem,
+    duracaobem, valorreduzidobem, dtcancelamentobem, dtantecipacaobem, diasprorrogacaobem,
+    dtprorrogacaobem, cnpjempresacontratanteaprendiz, naocalculareciboferias, nroprocessotrabadmissao,
+    tiporegprevdirigentesindical, tiporegtrabdirigentesindical, enviorescisaoconsignado,
+    funcaoacumulavel, tipoprovimento, dtexercicio, tipoplanosegregacaomassa, tetorgps,
+    abonopermanencia, dtinicioabono, beneficiario, datainiciobeneficiario, beneficiarioincapaz,
+    dataincapacidade, cnpjresponsavelmatricula, matriculabeneficiario, indicativoremuneracaocargo,
+    tiporegtrabmandatoeletivo, tiporegprevmandatoeletivo, codcategoriamandatoeletivo,
+    cnpjmandatoeletivo, matriculamandatoeletivo, dtexerciciomandatoeletivo, tiporegimetrabalhista,
+    indsitremunaposdeslig, desconsiderarirrfsimplificado, dtdesligamentojudicial,
+    adesaopdv, modalidadecontratacao, inscestabelecimentoativpratica from dbo.pfunc '
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/pfunc
+- mode: overwrite
+- key: codcoligada,chapa
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

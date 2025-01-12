@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.smatricpl
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idperlet, idhabilitacaofilial, ra, codfilial, codtipomat, codturma, codstatusres, codstatus, dtmatricula, dtresultado, identificador, numcarteira, viacarteira, periodo, numaluno, carteiraemitida, selinstenade, selmecenade, dtprovaenade, compareceuenade, obsenade, dtsolicitacaoalteracao, cr, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, codinstdestino, codmotivotransferencia, temcontratoaprendizagem, temrip, dtmatriculaencerra, idps, numeroinscricao, situacaoenade, outrasituacaoenade, anoreferenciaenade from dbo.smatricpl'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/smatricpl
+- mode: overwrite
+- key: codcoligada,idperlet,idhabilitacaofilial,ra
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

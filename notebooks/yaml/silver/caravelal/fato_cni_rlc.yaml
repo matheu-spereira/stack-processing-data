@@ -1,0 +1,35 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: caravelal/fato_cni_rlc
+- mode: overwrite
+- key: id
+delta:
+- tablename: ''
+- query: |
+    SELECT *
+    FROM compliance_cni_rlc
+delta_table:
+- path: bronze/caravelal/cnirlc
+  name: compliance_cni_rlc

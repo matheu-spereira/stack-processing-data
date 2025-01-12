@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.shabilitacaofilialpl
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idperlet, idhabilitacaofilial, codgrupo, dtnumautomatica, dtiniciomatricula, dtfinmatricula, hriniciomatricula, hrfinmatricula, pontuacaominima, maximoaulas, codplanopgto, dtinicioalteracaoprograma, dtfimalteracaoprograma, hrinicioalteracaoprograma, hrfimalteracaoprograma, dtinicioautespecial, dtfimautespecial, hrinicioautespecial, hrfimautespecial, dtlimitetrancamento, codplanopgtoservico, codcolcxa, codcxa, dtcompetenciainicial, dtcompetenciafinal, dtcompetenciainicialmov, dtcompetenciafinalmov, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, dtinialteracompl, dtfimalteracompl, permitematfilialdif, codcalendario, usasugestaodisciplinacurso, sugestturmadif, sugestturnodif, sugestgradedif, sugesthabilitacaodif, sugestcursodif, selecturmaslivres, mostrardiscoptelesdd, desconsiderarreqdisc, filialdifpresencial, filialdifportal, exibirturdiscemcurso, exibirequivalente, equivturnos, equivmatrizes, equivcursos, equivhabilitacoes, equivnivelensino, sugestcoligadadif, qtditinerariosmatricpl, qtdminitinerariosmatricpl, codturma, codcampus, codfilial, dtinimatriccentralcandidato, dtfimmatriccentralcandidato, hrinimatriccentralcandidato, hrfimmatriccentralcandidato, exibiritinerarionamatricula, exigefiador, codcolrelatoriocontratoreports, idrelatoriocontratoreports, utilizaragrupamentoitinerario, idtotvssigndocumento, origemcriacao, utzescolhaturmadisciplinaitprt, dtiniciomatricitinerarioprt, dtfimmatricitinerarioprt, horarioinimatricitinerarioprt, horariofimmatricitinerarioprt, ocultarquadrohorariomatricweb from dbo.shabilitacaofilialpl'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/shabilitacaofilialpl
+- mode: overwrite
+- key: codcoligada,idperlet,idhabilitacaofilial
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

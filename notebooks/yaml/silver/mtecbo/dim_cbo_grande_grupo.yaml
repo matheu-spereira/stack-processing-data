@@ -1,0 +1,35 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: mte/dim_cbo_grande_grupo
+- mode: overwrite
+- key: cd
+delta:
+- tablename: ''
+- query: |
+    SELECT *
+    FROM compliance_cbo_grande_grupo
+delta_table:
+- path: bronze/mte/cbograndegrupo
+  name: compliance_cbo_grande_grupo

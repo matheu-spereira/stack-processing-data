@@ -1,0 +1,33 @@
+type: api
+chunksize: 
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: dynamics_products
+- origin: dynamics
+- url: https://sesisenaies.api.crm2.dynamics.com
+- endpoint: /api/data/v9.2/products
+- tag: 
+sink:
+- datalakezone: bronze
+- datalakepath: dynamicscrm/products
+- mode: overwrite
+- key: 
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

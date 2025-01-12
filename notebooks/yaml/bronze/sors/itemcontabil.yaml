@@ -1,0 +1,37 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.itemcontabil
+- schedule: '* * * * 7'
+- state: finalizado
+- page: 0
+- query: select codigo, ano, codigoentidade, iditemcontabil, nmitemcontabil, iditemcontabilsuperior,
+    codigotipoitemcontabil, codigoexercicioanterior, idfuncionalprogramaticasesi,
+    idfuncionalprogramaticasenai, datainclusao, codigousuarioinclusao, dataexclusao,
+    codigousuarioexclusao, posicionamentopendente, comentario, codigoerp, codigoreduzido,
+    ativo, analiticasintetica, dataultimaatualizacao, codigousuarioatualizacao, obsrs,
+    gratuito, codigoprodutomodalidade, codigoprodutoatributo, tiporateio from dbo.itemcontabil
+- filter_full: ''
+- filter_partial: where dataultimaatualizacao >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: sors/itemcontabil
+- mode: overwrite
+- key: codigo
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

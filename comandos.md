@@ -1,7 +1,7 @@
 # docker-compose build --up -d
 # docker-compose up -d
 # chmod -R 777 ./notebooks/ - Para editar os notebooks no jupyter
-# sudo chmod -R 777 /var/lib/docker/volumes/dev_env_spark-events/_data - Para que as aplicação spark seja salva na pasta tmp (usada pelo history)
+# sudo chmod -R 777 /var/lib/docker/volumes/stack-processing-data_spark-events/_data - Para que as aplicação spark seja salva na pasta tmp (usada pelo history)
 
 # endereço sqlserver: localhost ou 127.0.0.1 | user:sa 
 

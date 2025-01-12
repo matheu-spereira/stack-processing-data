@@ -1,0 +1,61 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: gold
+- datalakepath: SGT/DimEmpresasSgt
+- mode: overwrite
+- key: cpf_cnpj
+delta:
+- tablename: ''
+- query: |
+    SELECT cpf_cnpj, nome_cliente
+    FROM (
+        SELECT 
+            cpf_cnpj, 
+            nome_cliente, 
+            ROW_NUMBER() OVER(PARTITION BY cpf_cnpj ORDER BY cpf_cnpj) as row_num
+        FROM (
+            SELECT nr_cnpj_cliente AS cpf_cnpj, nm_cliente AS nome_cliente
+            FROM sgt_relatorios
+    
+            UNION ALL
+    
+            SELECT nr_cpf_cnpj_cliente AS cpf_cnpj, nm_cliente AS nome_cliente
+            FROM sgt_atendimentos
+    
+            UNION ALL
+    
+            SELECT nr_cpf_cnpj AS cpf_cnpj, dsc_nome AS nome_cliente
+            FROM sgt_clientes
+        ) as combined_data
+    ) as numbered_rows
+    WHERE row_num = 1 and cpf_cnpj IS NOT NULL;
+delta_table:
+- path: silver/SGT/RelatoriosSgt
+  name: sgt_relatorios
+- path: silver/SGT/ClientesSgt
+  name: sgt_clientes
+- path: silver/SGT/AtendimentoSgt
+  name: sgt_atendimentos
+
+

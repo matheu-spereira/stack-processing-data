@@ -1,0 +1,45 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+  query: ''
+  filter_full: ''
+  filter_partial: ''
+  delete_full: ''
+  delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: gold
+  datalakepath: orcamento/fat_lancamento
+  mode: overwrite
+  key: codigoorcamento,codigo,codigoitemcontabil,ano,mes
+delta:
+- tablename: fat_lancamento
+- query: |
+    select
+        codigoetapa,
+        codigostatus,
+        codigoentidade,
+        idcentrocusto,
+        codigocr,
+        codigoorcamento,
+        mes,
+        ano,
+        codigo,
+        codigoconta,
+        codigoitemcontabil,
+        data_lancamento,
+        valor 
+    from fat_lancamento
+delta_table:
+- path: silver/sors/fat_lancamento
+  name: fat_lancamento 

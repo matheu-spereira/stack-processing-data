@@ -1,0 +1,50 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.ppessoa
+- schedule: '* * * * 7'
+- query: select codigo, nome, apelido, dtnascimento, estadocivil, sexo, nacionalidade,
+    grauinstrucao, rua, numero, complemento, bairro, estado, cidade, cep, pais, regprofissional,
+    cpf, idimagem, telefone1, telefone2, cartidentidade, ufcartident, orgemissorident,
+    dtemissaoident, tituloeleitor, zonatiteleitor, secaotiteleitor, carteiratrab,
+    seriecarttrab, ufcarttrab, dtcarttrab, nit, cartmotorista, tipocarthabilit, dtvenchabilit,
+    certifreserv, categmilitar, naturalidade, estadonatal, datachegada, cartmodelo19,
+    conjugebrasil, naturalizado, filhosbrasil, nrofilhosbrasil, nroreggeral, nrodecreto,
+    dtvencident, dtvenccarttrab, tipovisto, email, investtreinant, corraca, deficientefisico,
+    codusuario, telefone3, fax, empresa, codprofissao, codocupacao, codmemoobs, brpdh,
+    npassaporte, fumante, paisorigem, dtemisspassaporte, dtvalpassaporte, obspessoa,
+    idimagemdoc, idimagemdocv, ajustatamanhofoto, deficienteauditivo, deficientefala,
+    deficientevisual, deficientemental, recursorealizacaotrab, recursoacessibilidade,
+    dataaprovacaocurr, codmunicipio, localidade, csm, dtexpcml, exped, rm, sitmilitar,
+    dttiteleitor, esteleit, tiposang, idbiometria, aluno, professor, usuariobiblios,
+    funcionario, exfuncionario, candidato, tagscript, fiador_sgi, conjuge_sgi, deficientemobreduzida,
+    reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, dtvencidentpt, codtiporua,
+    codtipobairro, idpais, codnaturalidade, numeroric, orgemissorric, dtemissaoric,
+    dtemissaocnh, orgemissorcnh, datanaturalizacao, orgemissorrne, dtemissaorne, nomesocial,
+    deficienteintelectual, deficienteobservacao, codclassiftrabestrang, ufcnh, dataprimeiracnh,
+    dataobito, matriculaobito, falecido, portarianaturalizacao, ano1emprego, emailpessoal,
+    tipoprazoresidencia, mudoucpf from dbo.ppessoa
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/ppessoa
+- mode: overwrite
+- key: codigo
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

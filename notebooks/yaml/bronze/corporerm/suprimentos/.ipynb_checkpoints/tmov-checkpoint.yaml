@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.tmov
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idmov, codfilial, codloc, codlocentrega, codlocdestino, codcfo, codcfonatureza, numeromov, serie, codtmv, tipo, status, movimpresso, docimpresso, fatimpressa, dataemissao, datasaida, dataextra1, dataextra2, codrpr, comissaorepres, nordem, codcpg, numerotributos, valorbruto, valorliquido, valoroutros, observacao, percentualfrete, valorfrete, percentualseguro, valorseguro, percentualdesc, valordesc, percentualdesp, valordesp, percentualextra1, valorextra1, percentualextra2, valorextra2, perccomissao, codmen, codmen2, viadetransporte, placa, codetdplaca, pesoliquido, pesobruto, marca, numero, quantidade, especie, codtb1fat, codtb2fat, codtb3fat, codtb4fat, codtb5fat, codtb1flx, codtb2flx, codtb3flx, codtb4flx, codtb5flx, idmovrelac, idmovlctfluxus, idmovpeddesdobrado, codmoevalorliquido, databasemov, datamovimento, numerolctgerado, geroufatura, numerolctaberto, flagexportacao, emiteboleta, codmendesconto, codmendespesa, codmenfrete, fretecifoufob, usadespfinanc, flagexporfisc, flagexporfazenda, valoradiantamento, codtra, codtra2, statusliberacao, codcfoaux, idlot, itensagrupados, flagimpressaofat, datacancelamentomov, valorrecebido, segundonumero, codccusto, codcxa, codven1, codven2, codven3, codven4, perccomissaoven2, codcolcfo, codcolcfonatureza, codusuario, codfilialentrega, codfilialdestino, flagagrupadofluxus, codcolcxa, geradoporlote, coddepartamento, codccustodestino, codevento, statusexportcont, codlote, statuscheque, dataentrega, dataprogramacao, idnat, idnat2, campolivre1, campolivre2, campolivre3, geroucontatrabalho, geradoporcontatrabalho, horultimaalteracao, codlaf, datafechamento, nseqdatafechamento, numerorecibo, idloteprocesso, idobjof, codagendamento, chaparesp, idloteprocessorefat, indusoobj, subserie, stscompras, codlocexp, idclassmov, codentrega, codfaixaentrega, dthentrega, contabilizadoportotal, codlafe, idprj, numerocupom, numerocaixa, flagefeitosaldo, integradobonum, codmoelancamento, naonumerado, flagprocessado, abatimentoicms, tipoconsumo, horarioemissao, dataretorno, usuariocriacao, datacriacao, idcontatoentrega, idcontatocobranca, statusseparacao, stsemail, valorfretectrc, pontovenda, prazoentrega, valorbrutointerno, idaidf, idsaldoestoque, vinculadoestoquefl, idreducaoz, horasaida, codmunservico, codetdmunserv, apropriado, codigoservico, datadeducao, coddiario, seqdiario, seqdiarioestorno, inssemoutraempresa, idmovctrc, dataprogramacaoant, codtdo, valordesccondicional, valordespcondicional, codigoirrf, deducaoirrf, percentbaseinss, percbaseinssempregado, contorcamentoantigo, coddeptodestino, datacontabilizacao, codviatransporte, valorservico, sequencialestoque, distancia, uncalculo, formacalculo, integradoautomacao, integraaplicacao, classeconsumo, tipoassinante, fase, tipoutilizacao, grupotensao, datalancamento, extenporaneo, recibonfestatus, recibonfetipo, recibonfenumero, recibonfesituacao, idmovcfo, ocautonomo, valormercadorias, naturezavolumes, volumes, cro, usarateiovalorfin, recibonfeserie, codcolcfoorigem, codcfoorigem, valorctrcaratear, codcolcfoaux, vrbaseinssoutraempresa, idceicfo, chaveacessonfe, vlrseccat, vlrdespacho, vlrpedagio, vlrfreteoutros, abatimentonaotrib, rateioccustodepto, valorrateiolan, codcolcfotransfat, codcfotransfat, codusuarioaprovadesc, idintegracao, statusanterior, valorbrutoorig, valorliquidoorig, valoroutrosorig, valorrateiolanorig, dataprocessamento, idnatfrete, idoperacao, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, valorrecebidofatparc, valorconcluido, idtss, flagconclusao, statusparadigma, prodpredominante, statusmovinclusaocolab, cnpjcpfadquirente, nomeadquirente, docestrangeiroadquirente, codfilialscp, stscontrato, idplano, stsconcluido, idmovosmnt, codcolintermediador, idintermediador, desconsiderarsnmov, protocoloautnfe, idnatrendimento, perccomissaoven3, perccomissaoven4 from dbo.tmov'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/tmov
+- mode: overwrite
+- key: codcoligada,idmov
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

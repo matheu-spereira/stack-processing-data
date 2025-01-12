@@ -1,0 +1,37 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.gfilial
+- schedule: '* * * * 7'
+- query: select codcoligada, codfilial, nomefantasia, cgc, nome, inscricaoestadual,
+    telefone, fax, email, rua, numero, complemento, bairro, cidade, estado, pais,
+    cep, contato, produtorrural, tiporua, tipobairro, codcalendario, idimagem, codmunicipio,
+    localidade, ramoatividade, inscmun, codativfed, codatividprinc, descatividprinc,
+    numregjunta, caixapostal, cepcaixapostal, dataregjunta, idpais, suframa, id, idintegracao,
+    reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, ddd, dddfax, propriedaderural,
+    cafir, cadativeconomicapf, tipoexploracaoimovel, percexploracaoimovel, ativo from
+    dbo.gfilial
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/gfilial
+- mode: overwrite
+- key: codcoligada,codfilial
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

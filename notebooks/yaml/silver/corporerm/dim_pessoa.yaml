@@ -1,0 +1,47 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+  query: ''
+  filter_full: ''
+  filter_partial: ''
+  delete_full: ''
+  delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: silver
+  datalakepath: corporerm/dim_pessoa
+  mode: overwrite
+  key: id_pessoa
+delta:
+- tablename: dim_pessoa
+- query: " select 
+ppessoa.codigo as id_pessoa,
+ppessoa.nome as nm_pessoa,
+ppessoa.cep as nr_cep,
+ppessoa.cpf as nr_cpf,
+ppessoa.naturalidade as ds_naturalidade,
+pcodsexo.descricao as ds_sexo,
+ppessoa.email as ds_email,
+ppessoa.telefone1 as nr_telefone1,
+ppessoa.telefone2 as nr_telefone2,
+pcodinstrucao.descricao as ds_grau_instrucao 
+from ppessoa 
+left join pcodsexo on ppessoa.sexo = pcodsexo.codcliente 
+left join pcodinstrucao on ppessoa.grauinstrucao = pcodinstrucao.codcliente "
+delta_table:
+- path: bronze/corporerm/ppessoa
+  name: ppessoa
+- path: bronze/corporerm/pcodsexo
+  name: pcodsexo
+- path: bronze/corporerm/pcodinstrucao
+  name: pcodinstrucao    

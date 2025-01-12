@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.smatricplcompl
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idperlet, idhabilitacaofilial, ra, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, gratuidade, tipograt, categoria_findes, justificativa, tipocli, pronatec, situacaoocup, condicaoalu, datainicial, datafinal, articulacao, tipoescola, justfinan, justacadem, contratopm, unidsesi, unidsenai, atividadesextra, empresa, rendafamiliar, idmatsolucaointegrad, codcursosi, cursosi, dtmatsi, dtiniciosi, dtfimsi, enviaprod, clitit, titular, cnpj, cnpj1, categoria, codfinanc, odonto, esporte, viravida, ebep, cursoebep, tempointegral, baixarenda, what, why, where1, when1, who, how, howmuch, plano, codmatriculascae, cursofic, tipodocumento, cnpjempresa, ceiempresa, cmobest, nomeempresa, matricrefe, dttermino, chcurso, codcurso, obs, tipoempresa, enviaportalsesi from dbo.smatricplcompl'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/smatricplcompl
+- mode: overwrite
+- key: codcoligada,idperlet,idhabilitacaofilial,ra
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

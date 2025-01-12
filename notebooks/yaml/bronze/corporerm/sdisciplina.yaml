@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.sdisciplina
+- schedule: '* * * * 7'
+- query: 'select codcoligada, coddisc, coddischist, nome, nomereduzido, complemento, ch, numcreditos, objetivo, decimais, codtipocurso, chestagio, cursolivre, tipoaula, tipodiscprovao, tiponota, chteorica, chpratica, chlaboratorial, codevento, idft, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, idgrupocomplemento, estagio, chtrabalhocampo, chseminario, chorientacaotutorial, chteoricopratica, integralms, itinerarioformativo, coddisccenso, chextensao from dbo.sdisciplina'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/sdisciplina
+- mode: overwrite
+- key: codcoligada,coddisc
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

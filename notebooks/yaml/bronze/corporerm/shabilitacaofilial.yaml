@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.shabilitacaofilial
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idhabilitacaofilial, codturno, codfilial, codcurso, codhabilitacao, codgrade, codccusto, coddepartamento, ativo, codtipocurso, emailcoordenacao, excluipagtocartaocredito, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, decretocurso, descricaocurso, decretohabilitacao, descricaohabilitacao, emailtcc, idcursomec, diplomaregistradooutraies from dbo.shabilitacaofilial'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/shabilitacaofilial
+- mode: overwrite
+- key: codcoligada,idhabilitacaofilial
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

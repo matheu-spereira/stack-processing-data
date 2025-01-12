@@ -1,0 +1,59 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: dadosabertosreceita/flat_estabelecimentos
+- mode: overwrite
+- key: dsc_cnpj_basico, dsc_cnpj_ordem, dsc_cnpj_dv
+delta:
+- tablename: ''
+- query: |
+    SELECT
+        cnpj_basico AS dsc_cnpj_basico,  
+        cnpj_ordem AS dsc_cnpj_ordem, 
+        cnpj_dv AS dsc_cnpj_dv, 
+        CASE 
+            WHEN id_matriz_filial = 1 THEN 'Matriz' 
+            ELSE 'Filial' 
+        END AS dsc_matriz_filial, 
+        INITCAP(nome_fantasia) AS nm_fantasia,
+        CASE 
+            WHEN situacao_cadastral = '01' THEN 'Nulo'
+            WHEN situacao_cadastral = '02' THEN 'Ativa'
+            WHEN situacao_cadastral = '03' THEN 'Suspensa'
+            WHEN situacao_cadastral = '04' THEN 'Inapta'
+            WHEN situacao_cadastral = '08' THEN 'Baixada'
+            ELSE 'Outros' 
+        END AS dsc_situacao_cadastral, 
+        motivo_situacao_cadastral AS cd_motivo_situacao_cadastral,
+        pais AS cd_pais,
+        cnae_fiscal_principal AS cd_cnae_fiscal_principal, 
+        cnae_fiscal_secundaria AS cd_cnae_fiscal_secundaria, 
+        municipio AS cd_municipio,
+        telefone_1 AS dsc_telefone_1,
+        telefone_2 AS dsc_telefone_2,
+        uf
+    FROM compliance_receita_estabelecimentos
+delta_table:
+- path: bronze/dadosabertosreceita/estabelecimentos
+  name: compliance_receita_estabelecimentos

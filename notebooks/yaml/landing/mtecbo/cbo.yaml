@@ -1,0 +1,32 @@
+type: arquivo
+chunksize: 
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: cbo
+- format:
+- url: https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/cbo/servicos/downloads/estrutura-cbo.zip
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: landing
+- datalakepath: mte/cbo
+- mode: upsert
+- key: 
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

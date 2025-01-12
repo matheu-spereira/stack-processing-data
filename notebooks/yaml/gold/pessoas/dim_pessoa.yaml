@@ -1,0 +1,41 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+  query: ''
+  filter_full: ''
+  filter_partial: ''
+  delete_full: ''
+  delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: gold
+  datalakepath: pessoas/dim_pessoa
+  mode: overwrite
+  key: id_pessoa
+delta:
+- tablename: dim_pessoa
+- query: " select 
+dim_pessoa.id_pessoa,
+dim_pessoa.nm_pessoa,
+dim_pessoa.ds_naturalidade,
+dim_pessoa.ds_sexo,
+dim_pessoa.ds_email,
+dim_pessoa.nr_cep,
+dim_pessoa.nr_cpf,
+dim_pessoa.nr_telefone1,
+dim_pessoa.nr_telefone2,
+dim_pessoa.ds_grau_instrucao
+from dim_pessoa "
+delta_table:
+- path: silver/corporerm/dim_pessoa
+  name: dim_pessoa

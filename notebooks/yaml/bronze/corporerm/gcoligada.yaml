@@ -1,0 +1,34 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.gcoligada
+- schedule: '* * * * 7'
+- query: select codcoligada, nomefantasia, cgc, nome, inscricaoestadual, telefone,
+    fax, email, rua, numero, complemento, bairro, cidade, estado, pais, cep, controlacgc,
+    controle1, controle2, controle3, idimagem, produtorrural, ativo, codexterno, importada,
+    datalimitelicencas, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon from
+    dbo.gcoligada
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/gcoligada
+- mode: overwrite
+- key: codcoligada
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

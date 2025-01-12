@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.shabilitacaoaluno
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idhabilitacaofilial, ra, codtipoingresso, codinst, codstatus, dtingresso, pontosvestibular, classificacaovestibular, mediavestibular, dtcolacaograu, dtemisdiploma, registroconclusao, livroregistro, paginaregistro, dtconclusaocurso, cr, mediaglobal, dtprovao, processoregistro, codinstdiploma, observacao, realizouprovao, idhabilitacaofilialorigem, codmotivotransferencia, motivotransferencia, indicecarencia, codcampus, localizacaofisica, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, codinstdestino, codmottransfext, dtprocessoseletivo, dtregistrodiploma, codsistec, pronatec, dtemissaodou, exibediplomaweb, desabilitaintegralizacao, idcertificado from dbo.shabilitacaoaluno'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/shabilitacaoaluno
+- mode: overwrite
+- key: codcoligada,idhabilitacaofilial,ra
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

@@ -1,0 +1,42 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.orcamento
+- schedule: '* * * * 7'
+- state: finalizado
+- page: 0
+- query: select codigo, codigocr, codigoconta, descricao, memoria, datainclusao, codigousuarioinclusao,etapainclusao,
+    dataultimaalteracao, codigousuarioultimaalteracao, dataexclusao,codigousuarioexclusao,
+    codigolegado, codigoorigemlancamento, codigoorcamentoreferencia,ano, codigoentidade,
+    tiporateio, percentualrateioe2, percentualrateioe3, percentualrateioe4,percentualrateioe5,
+    motivorateioinformado, codigoimportacao, somenteleitura, linhaarquivoimportacao,comentario,
+    codigoerpatualizacaosaldo, codigogerencial, gerencialaprovado, codigoacao,codigoproduto,
+    tipo, ativo, rastreio, codigoprojeto, codigoorcamentoentidadecorporativa,codigocriteriorateio,
+    codigoentidadeagrupamentocorporativo, codigoorcamentoacao,codigocentrocustoorigem,
+    codigoobjetivoestrategico, codigoorcamentosituacaolancamento,obsrs, codigoiniciativaacao,
+    idrastreioguid, idrastreiohash, k_codigoetapaanterio2024,idfilial, codigofilial
+    from dbo.orcamento
+- filter_full: ''
+- filter_partial: where dataultimaalteracao >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: sors/orcamento
+- mode: overwrite
+- key: codigo
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

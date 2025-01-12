@@ -1,0 +1,30 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+  query: ''
+  filter_full: ''
+  filter_partial: ''
+  delete_full: ''
+  delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: silver
+  datalakepath: sors/dim_status
+  mode: overwrite
+  key: codigo
+delta:
+- tablename: dim_status
+- query: "select codigo,nome from exerciciostatus"
+delta_table:
+- path: bronze/sors/exerciciostatus
+  name: exerciciostatus

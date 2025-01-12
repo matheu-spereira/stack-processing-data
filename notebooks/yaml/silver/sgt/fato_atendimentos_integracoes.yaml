@@ -1,0 +1,45 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: sgt/fato_atendimentos_integracoes
+- mode: overwrite
+- key: id_atendimento
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+        idAtendimento as id_atendimento,
+        dataEmissao as dt_emissao,
+        dataNegociacao as dt_negociacao,
+        dataAceitacao as dt_aceitacao,
+        dataExecucao as dt_execucao,
+        dataRecusa as dt_recusa,
+        dataConclusao as dt_conclusao,
+        dataCancelamento as dt_cancelamento
+    FROM 
+        atendimentosintegracoessgt
+    WHERE idAtendimento IS NOT NULL;
+delta_table:
+- path: bronze/sgt/atendimentosintegracoes
+  name: atendimentosintegracoessgt

@@ -23,8 +23,9 @@ services:
       - "7077:7077"
     depends_on:
       - minio
-    #command: bash -c "bin/spark-class org.apache.spark.deploy.master.Master"
     command: bin/spark-class org.apache.spark.deploy.master.Master
+    volumes:
+      - spark-jars:/mnt/spark-jars
     networks:
       - app_net
       
@@ -74,7 +75,9 @@ services:
     volumes:
       - "./notebooks/:/home/jovyan/work"
       - spark-events:/tmp/spark-events
-    command: /bin/sh -c " pip install PyYAML==6.0.1 py7zr minio ruamel.yaml==0.18.5 delta-spark==3.2.0 croniter==2.0.1 && start-notebook.sh --NotebookApp.token='' --NotebookApp.password='' "
+      - spark-jars:/mnt/spark-jars
+      - ./docker/requirements.txt:/home/jovyan/requirements.txt  # Montando o arquivo requirements.txt
+    command: /bin/sh -c "pip install -r /home/jovyan/requirements.txt && start-notebook.sh --NotebookApp.token='' --NotebookApp.password='' "
     environment:
       - SPARK_MASTER=spark://spark-master:7077
       - PATH_RAIZ=/home/jovyan/work
@@ -123,6 +126,7 @@ services:
 # Definição de volumes persistentes usados por vários contêineres
 volumes:
   spark-events:  # Volume compartilhado para armazenar eventos do Spark
+  spark-jars:  # Volume compartilhado para jars eventos do Spark
   minio-data:  # Volume persistente para dados do MinIO
   paradedb_data:  # Volume para dados do PostgreSQL
     driver: local 

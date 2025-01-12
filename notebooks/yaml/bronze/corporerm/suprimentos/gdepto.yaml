@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.gdepto
+- schedule: '* * * * 7'
+- query: 'select codcoligada, codfilial, coddepartamento, nome, contato, localizacao, telefone, fax, ramal, codcolcontager, codcontager, ativo, email, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon from .dbo.gdepto'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/gdepto
+- mode: overwrite
+- key: codcoligada,codfilial,coddepartamento
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

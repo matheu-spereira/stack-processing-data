@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.titmmov
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idmov, nseqitmmov, numerosequencial, idprd, codtip, quantidade, precounitario, precotabela, percentualdesc, valordesc, percentualdesp, valordesp, dataemissao, codmen, numerotributos, codtb1fat, codtb2fat, codtb3fat, codtb4fat, codtb5fat, codtb1flx, codtb2flx, codtb3flx, codtb4flx, codtb5flx, campolivre, codund, quantidadeareceber, codnat, codcpg, dataentrega, prateleira, idcnt, nseqitmcnt, datainifat, datafimfat, flagefeitosaldo, valorunitario, valorfinanceiro, imprimemov, codccusto, flagrepasse, aliqordenacao, quantidadeoriginal, idnat, flag, chapa, inicio, termino, previnicio, status, block, flagrefaturamento, idcntdestino, nseqitmcntdest, fatorconvund, idprj, idtrf, valortotalitem, valorcodigoprd, tipocodigoprd, qtdundpedido, tributacaoecf, codfilial, coddepartamento, idprdcomposto, quantidadeseparada, percentcomissao, indicencm, ncm, codrpr, comissaorepres, nseqitmcntmedicao, valorescrituracao, valorfinpedido, valorfretectrc, valoropfrm1, valoropfrm2, idobjoficina, precoeditado, qtdevolumeunitario, idgrd, codven1, codlocalbn, registroexportacao, datare, precototaleditado, cst, valordesccondiconalitm, valordespcondicionalitm, dataorcamento, codtborcamento, rateiofrete, rateioseguro, rateiodesc, rateiodesp, rateioextra1, rateioextra2, rateiofretectrc, rateiodedmat, rateiodedsub, rateiodedout, idclassifenergiacomunic, valoruntorcamento, valserviconfe, codloc, valorbem, valorliquido, codigocodif, codmunservico, codetdmunserv, rateioccustodepto, custoreposicao, custoreposicaob, valorfinterceiros, valorfinancgerencial, codigoservico, valorunitgerencial, idintegracao, idtabpreco, valorbrutoitem, valorbrutoitemorig, codcoltborcamento, codpublic, quantidadetotal, produtosubstituto, codtbgrupoorc, precounitarioselec, valorrateiolan, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, idcntop, quantidadeconcluida, datafatcontrato, valorrecebidofatparc, valorconcluido, consignado, integraaplicacao, idprdorigem, valorretencao, percentualretencao, codcolmarca, idmarca, valordeducao, percentualdeducao, quantidadetributavel, codbemsigamnt, taxajuros, valorbasedepreciacaobem, idmovsolicitacaomnt, descricaoprdcfo, iditmcnt2parcela from dbo.titmmov'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/titmmov
+- mode: overwrite
+- key: codcoligada,idmov,nseqitmmov
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

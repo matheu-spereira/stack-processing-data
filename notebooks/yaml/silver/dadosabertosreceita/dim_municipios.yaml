@@ -1,0 +1,37 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: dadosabertosreceita/dim_municipios
+- mode: overwrite
+- key: codigo
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+    codigo,
+    INITCAP(descricao) AS descricao
+    FROM compliance_receita_municipios
+delta_table:
+- path: bronze/dadosabertosreceita/municios
+  name: compliance_receita_municipios

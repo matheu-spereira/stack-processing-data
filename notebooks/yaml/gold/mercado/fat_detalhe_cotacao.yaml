@@ -1,0 +1,53 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: gold
+- datalakepath: mercado/fat_detalhe_cotacao
+- mode: overwrite
+- key: cod_proposta
+delta:
+- tablename: ''
+- query: |
+    SELECT
+        fat_detalhe_cotacao.cod_entidade,
+        fat_detalhe_cotacao.dsc_produto,
+        fat_detalhe_cotacao.dsc_natureza_produto,
+        fat_detalhe_cotacao.cod_unidade_operacional,
+        fat_detalhe_cotacao.qt_produto,
+        fat_detalhe_cotacao.vl_total_desconto,
+        fat_detalhe_cotacao.vl_total_servico,
+        fat_detalhe_cotacao.vl_unitario_servico,
+        fat_detalhe_cotacao.cod_proposta,
+        fat_detalhe_cotacao.cod_status,
+        fat_detalhe_cotacao.cod_cliente_servico,
+        qt.dt_finalizacao,
+        qt.dt_inicio,
+        fat_detalhe_cotacao.cod_produto
+    FROM fat_detalhe_cotacao
+    LEFT JOIN 
+        fat_cotacao qt ON qt.cod_proposta = fat_detalhe_cotacao.cod_proposta
+delta_table:
+- path: silver/dynamicscrm/fat_detalhe_cotacao
+  name: fat_detalhe_cotacao
+- path: silver/dynamicscrm/fat_cotacao
+  name: fat_cotacao

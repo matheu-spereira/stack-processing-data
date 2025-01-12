@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.sturma
+- schedule: '* * * * 7'
+- query: 'select codcoligada, codfilial, idperlet, codturma, idhabilitacaofilial, coddepartamento, codpredio, codsala, codccusto, aplicacao, codformula, nomered, nome, maxalunos, dtinicial, dtfinal, alunoslabore, dtalunoslabore, codtipocurso, codturmaprox, turmaencerrada, codcampus, codbloco, idft, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, tipomediacao, modalidade, idunidadeponto, codhorarioagrupurania, idclassevalorprotheus, iditemcontabilprotheus, dtcompetenciainicialmov, dtcompetenciafinalmov, urlaulaonline, balanceamentomathabilita, balanceamentomatordem, origemcriacao from dbo.sturma'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/sturma
+- mode: overwrite
+- key: codcoligada,codfilial,codturma,idperlet
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

@@ -1,0 +1,78 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: gold
+- datalakepath: compliance/flat_microdados_novo_caged
+- mode: overwrite
+- key: dsc_competencia_mov, dsc_municipio, dsc_secao, dsc_subclasse, dsc_saldo_movimentacao, dsc_cbo_ocupacao, vl_horas_contratuais, dsc_tipo_movimentacao, vl_salario, dsc_indicador_aprendiz, vl_salario_fixo, dsc_divisao, dsc_grupo, dsc_classe, dsc_grande_grupo, dsc_subgrupo_principal, dsc_subgrupo, dsc_demanda_formacao, dsc_industrial_uniepro
+delta:
+- tablename: ''
+- query: |
+    SELECT
+        to_date(concat_ws('-', substring(caged.dsc_competencia_mov, 1, 4), substring(caged.dsc_competencia_mov, 5, 2), '01'), 'yyyy-MM-dd') AS dsc_competencia_mov,
+        compliance_caged_municipio.descricao AS dsc_municipio,
+        compliance_caged_secao.descricao AS dsc_secao,
+        compliance_caged_subclasse.descricao AS dsc_subclasse,
+        caged.dsc_saldo_movimentacao,
+        compliance_caged_cbo2002ocupacao.descricao AS dsc_cbo_ocupacao,
+        caged.vl_horas_contratuais,
+        compliance_caged_tipomovimentacao.descricao AS dsc_tipo_movimentacao,
+        caged.vl_salario,
+        compliance_caged_indicadoraprendiz.descricao AS dsc_indicador_aprendiz,
+        caged.vl_salario_fixo,
+        compliance_cnae.dsc_divisao,
+        compliance_cnae.dsc_grupo,
+        compliance_cnae.dsc_classe, 
+        compliance_cbo.dsc_grande_grupo,
+        compliance_cbo.dsc_subgrupo_principal,
+        compliance_cbo.dsc_subgrupo,
+        compliance_cbo.demanda_formacao as dsc_demanda_formacao,
+        compliance_cbo.dsc_industrial_uniepro
+    FROM compliance_caged caged
+    LEFT JOIN compliance_caged_municipio ON caged.cd_municipio = compliance_caged_municipio.codigo 
+    LEFT JOIN compliance_caged_secao ON caged.cd_secao = compliance_caged_secao.codigo 
+    LEFT JOIN compliance_caged_subclasse ON caged.cd_subclasse = compliance_caged_subclasse.codigo 
+    LEFT JOIN compliance_caged_cbo2002ocupacao ON caged.cd_cbo_ocupacao = compliance_caged_cbo2002ocupacao.codigo 
+    LEFT JOIN compliance_caged_tipomovimentacao ON caged.cd_tipo_movimentacao = compliance_caged_tipomovimentacao.codigo 
+    LEFT JOIN compliance_caged_indicadoraprendiz ON caged.cd_indicador_aprendiz = compliance_caged_indicadoraprendiz.codigo 
+    LEFT JOIN compliance_cnae ON caged.cd_subclasse = compliance_cnae.sk_cnae
+    LEFT JOIN compliance_cbo ON caged.cd_cbo_ocupacao = compliance_cbo.cd
+delta_table:
+- path: silver/novocaged/flat_novo_caged
+  name: compliance_caged
+- path: silver/servicodadosibge/dim_ibge_cnae
+  name: compliance_cnae
+- path: gold/compliance/fato_mte_cbo
+  name: compliance_cbo
+- path: silver/novocaged/dim_novo_caged_municio
+  name: compliance_caged_municipio
+- path: silver/novocaged/dim_novo_caged_secao
+  name: compliance_caged_secao
+- path: silver/novocaged/dim_novo_caged_subclasse
+  name: compliance_caged_subclasse
+- path: silver/novocaged/dim_novo_caged_cbo_2002_ocupacao
+  name: compliance_caged_cbo2002ocupacao
+- path: silver/novocaged/dim_novo_caged_tipo_movimentacao
+  name: compliance_caged_tipomovimentacao
+- path: silver/novocaged/dim_novo_caged_indicador_aprendiz
+  name: compliance_caged_indicadoraprendiz

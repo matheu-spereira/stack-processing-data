@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.spessoa
+- schedule: '* * * * 7'
+- query: 'select codigo, sobrenome, empresanome, empresarua, empresanumero, empresabairro, empresacomplemento, empresacep, empresacidade, empresauf, empresatelefone, empresahorario, tipocertidao, certnumero, certcartorio, certcomarca, certdata, certdistrito, certuf, certfolha, certlivro, codpessoapai, codpessoamae, codinst2grau, grauultimainst, anoultimainst, canhoto, senha, atendespecialfisico, atendespecialvisual, atendespecialauditivo, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, certserventia, indatendespecializado, indatendespecifico, indicadorderecursos, codetnia, nomeafetivo, utlznomeafetivo from dbo.spessoa'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/spessoa
+- mode: overwrite
+- key: codigo
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

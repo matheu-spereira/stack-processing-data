@@ -1,0 +1,45 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: pessoas/fato_funcionarios
+- mode: overwrite
+- key: funcionario_id
+delta:
+- tablename: ''
+- query: |
+
+    SELECT 
+        f.funcionario_id,
+        f.data_admissao,
+        f.salario,
+        fp.projeto_id
+    FROM 
+        funcionarios f
+    LEFT JOIN 
+        funcionarios_projetos fp ON f.funcionario_id = fp.funcionario_id;
+delta_table:
+- path: bronze/pessoas/funcionarios
+  name: funcionarios
+- path: bronze/pessoas/funcionarios_projetos
+  name: funcionarios_projetos

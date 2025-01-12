@@ -1,0 +1,44 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+  query: ''
+  filter_full: ''
+  filter_partial: ''
+  delete_full: ''
+  delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: silver
+  datalakepath: sors/dim_centro_responsabilidade
+  mode: overwrite
+  key: codigocentrocusto,codigoitemcontabil
+delta:
+- tablename: dim_centro_responsabilidade
+- query: |
+    select 
+    centrocusto.idcentrocusto,
+    cr.codigoitemcontabil,
+    itemcontabil.iditemcontabil,
+    itemcontabil.nmitemcontabil,
+    itemcontabil.iditemcontabilsuperior,
+    itemcontabil.codigotipoitemcontabil 
+    from itemcontabil 
+    inner join cr on cr.codigoitemcontabil = itemcontabil.codigo and cr.dataexclusao is null 
+    inner join centrocusto on centrocusto.Codigo = cr.CodigoCentroCusto
+delta_table:
+- path: bronze/sors/itemcontabil
+  name: itemcontabil
+- path: bronze/sors/cr
+  name: cr  
+- path: bronze/sors/centrocusto
+  name: centrocusto    

@@ -1,0 +1,39 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: pessoas/dim_departamentos
+- mode: overwrite
+- key: departamento_id
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+        departamento_id,
+        nome,
+        localizacao
+    FROM 
+        departamentos
+delta_table:
+- path: bronze/pessoas/departamentos
+  name: departamentos

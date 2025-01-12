@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.tprd
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idprd, codigoprd, nomefantasia, codigoreduzido, ultimonivel, tipo, descricao, descricaoaux, codigoauxiliar, referenciaccf, numeroccf, referenciacp, descricaocp, pesoliquido, pesobruto, comprimento, espessura, largura, cor, observacao, dtcadastramento, campolivre, campolivre2, campolivre3, idprodutorelac, tempo, inativo, pesavel, dataultalteracao, idimagem, diametro, dataprimeiraalt, codusuario, tempovalidade, usuariocriacao, qtdevolume, codigoex, servicoprodutormofficina, produtoepi, produtobase, numerotributos, eperiodico, block, dataextra1, dataextra2, controladoporlote, mascaranumserie, usanumserie, validademinima, id, codfab, numnofabric, preco1, preco2, preco3, idgrd, codgrd, codcoluna, codlinha, preco4, preco5, databasepreco1, databasepreco2, databasepreco3, databasepreco4, databasepreco5, codmoepreco1, codmoepreco2, codmoepreco3, codmoepreco4, codmoepreco5, codundcontrole, codcpg, estoqueminimo1, estoquemaximo1, estoqueminimo2, estoquemaximo2, estoqueminimo3, estoquemaximo3, pontodepedido1, pontodepedido2, pontodepedido3, percentcomissao, descontocompra, descontovenda, custounitario, dtcustounitario, codtip, codtb1fat, codtb2fat, codtb3fat, codtb4fat, codtb5fat, margembrutalucro, saldogeralfisico, percentcomissao2, codundcompra, codundvenda, recalccustomedio, customedio, datacustomedio, dtultimacompra, tipoconta, saldogeralfinanc, dtultimacomprab, custoreposicaob, percentcomissao3, custoreposicao, localdescarga, codcolcontager, codcontager, usanumdecpreco, numdecpreco, multiploprd, codtipoapl, coddief, toleranciasup, toleranciainf, codgrupo, tributacaoecf, tipocalculocusto, custopadrao, codgrupobem, grpfaturamento, tolinfpreco, tolsuppreco, multiploqtdecomprada, multiploprdvenda, codtborcamento, idprdfiscals, repassefabric, idprdfiscale, codcoltborcamento, recalcsaldo1, recalcsaldo2, recalcsaldo3, recalcsaldo4, recalcsaldo5, recalcsaldo6, recalcsaldo7, recalcsaldo8, recalcsaldo9, recalcsaldo10, codigoirrf, deducaoirrf, issdevidomunicipiocliente, percentbaseinss, percbaseinssempregado, incentivofiscalms, codapuracao, indespecial, codapuracaoe, codigoservicofederal, margemlucrofisc, fatorreducaoicms, inventariofiscal, classefiscalecf, perigoso from dbo.tprd'
+- filter_full: ''
+- filter_partial: ''
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/tprd
+- mode: overwrite
+- key: codcoligada, idprd
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

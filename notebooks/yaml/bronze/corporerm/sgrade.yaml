@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.sgrade
+- schedule: '* * * * 7'
+- query: 'select codcoligada, codcurso, codhabilitacao, codgrade, aplicacao, codformula, codformulacr, descricao, dtinicio, dtfim, maxcredperiodo, mincredperiodo, cargahoraria, controlevagas, regime, status, tipoatividadecurricular, tipoeletiva, tipooptativa, dtdou, codcursoprox, codhabilitacaoprox, codgradeprox, idft, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, totalcreditos, consminexigatvcurr, qtdminperiodoscursar, qtdminoptele, geraraprovestudo, percchextensao from dbo.sgrade'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/sgrade
+- mode: overwrite
+- key: codcoligada,codcurso,codhabilitacao,codgrade
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

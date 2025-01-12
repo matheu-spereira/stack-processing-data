@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.shabilitacao
+- schedule: '* * * * 7'
+- query: 'select codcoligada, codcurso, codhabilitacao, codcursohist, codseriehist, nome, complemento, textoconclusao, decreto, descricao, integralizacao, codhabinep, dtprovao, complemento2, prioridade, juramento, idft, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, codtipohabilitacao, titulacaomasculina, titulacaofeminina from dbo.shabilitacao'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/shabilitacao
+- mode: overwrite
+- key: codcoligada,codcurso,codhabilitacao
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

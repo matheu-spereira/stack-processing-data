@@ -1,0 +1,48 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: mte/fato_cbo_sub_grupo_principal
+- mode: overwrite
+- key: codigo
+delta:
+- tablename: ''
+- query: |
+    SELECT
+        sp.cd AS codigo,
+        g.demanda_formacao,
+        g.grande_grupo,
+        sp.TITULO AS subgrupo_principal,
+        g.subgrupo,
+        g.familia,
+        g.ocupacao,
+        'SUBGRUPO PRINCIPAL' AS nivel,
+        g.industrial_uniepro
+    FROM compliance_cbo_sub_grupo_principal sp
+    LEFT OUTER JOIN compliance_cbo_grande_grupo g
+    ON sp.cd_grande_grupo = g.cd
+delta_table:
+- path: bronze/mte/cbosubgrupoprincipal
+  name: compliance_cbo_sub_grupo_principal
+- path: bronze/mte/cbograndegrupo
+  name: compliance_cbo_grande_grupo

@@ -1,0 +1,47 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: dynamicscrm/fat_detalhe_cotacao
+- mode: overwrite
+- key: cod_proposta
+delta:
+- tablename: ''
+- query: |
+    SELECT
+        quotedetails._findes_coligadaid_value AS cod_entidade,
+        quotedetails.productname AS dsc_produto,
+        quotedetails._findes_solucaoid_value_name AS dsc_natureza_produto,
+        quotedetails._findes_unidadeexecutoraid_value AS cod_unidade_operacional,
+        CAST(quotedetails.quantity AS INT) AS qt_produto,
+        CAST(quotedetails.manualdiscountamount AS DECIMAL(10, 2)) AS vl_total_desconto,
+        CAST(quotedetails.extendedamount AS DECIMAL(10, 2)) AS vl_total_servico,
+        CAST(quotedetails.baseamount AS DECIMAL(10, 2)) AS vl_unitario_servico,
+        quotedetails._quoteid_value AS cod_proposta,
+        CAST(quotedetails.quotestatecode AS INT) AS cod_status,
+        quotedetails._productid_value AS cod_produto,
+        quotedetails._findes_clienteservicoid_value AS cod_cliente_servico
+    FROM quotedetails
+delta_table:
+- path: bronze/dynamicscrm/quotedetails
+  name: quotedetails

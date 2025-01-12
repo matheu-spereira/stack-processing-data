@@ -1,0 +1,37 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: dynamicscrm/dim_entidade
+- mode: overwrite
+- key: cod_entidade
+delta:
+- tablename: ''
+- query: |
+    SELECT DISTINCT
+        quotedetails._findes_coligadaid_value AS cod_entidade,
+        quotedetails._findes_coligadaid_value_name AS dsc_entidade
+    FROM quotedetails
+delta_table:
+- path: bronze/dynamicscrm/quotedetails
+  name: quotedetails

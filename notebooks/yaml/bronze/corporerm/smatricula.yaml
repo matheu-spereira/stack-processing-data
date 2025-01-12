@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.smatricula
+- schedule: '* * * * 7'
+- query: 'select codcoligada, idturmadisc, ra, codstatus, codstatusres, codsubturma, idperlet, idhabilitacaofilial, numdiario, dtmatricula, obshistorico, tipomat, tipodisciplina, numcreditoscob, dtalteracao, dtalteracaosist, idturmadiscorigem, idturmadiscsubst, cobposteriormatric, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, idturmadiscprincipal, origemconfirmacaomatricula from dbo.smatricula'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/smatricula
+- mode: overwrite
+- key: codcoligada,idturmadisc,ra
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

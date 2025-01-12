@@ -1,0 +1,40 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+- directory:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: silver
+- datalakepath: sgt/dim_clientes
+- mode: overwrite
+- key: nr_cpf_cnpj
+delta:
+- tablename: ''
+- query: |
+    SELECT distinct
+        cnae AS nr_cenae,
+        cpfCnpj AS nr_cpf_cnpj,
+        nome AS dsc_nome
+    FROM 
+        clientessgt
+delta_table:
+- path: bronze/sgt/clientes
+  name: clientessgt

@@ -1,0 +1,39 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: gold
+- datalakepath: compliance/dim_ibge_cnae
+- mode: overwrite
+- key: sk_cnae
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+        sk_cnae,
+        dsc_classe,
+        dsc_subclasse,   
+        dsc_industria
+    FROM  compliance_dim_ibge_cnae
+delta_table:
+- path: silver/servicodadosibge/dim_ibge_cnae
+  name: compliance_dim_ibge_cnae

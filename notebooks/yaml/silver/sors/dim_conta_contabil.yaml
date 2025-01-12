@@ -1,0 +1,30 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: '* * * * *'
+  query: ''
+  filter_full: ''
+  filter_partial: ''
+  delete_full: ''
+  delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:  
+sink:
+- datalakezone: silver
+  datalakepath: sors/dim_conta_contabil
+  mode: overwrite
+  key: idcontacontabil
+delta:
+- tablename: dim_conta_contabil
+- query: "select distinct idcontacontabil,nmcontacontabil,idcontacontabilsuperior from contacontabil"
+delta_table:
+- path: bronze/sors/contacontabil
+  name: contacontabil

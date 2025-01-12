@@ -1,0 +1,30 @@
+type: database
+chunksize: 1000000
+database:
+- tablename: dbo.gccusto
+- schedule: '* * * * 7'
+- query: 'select codcoligada, codccusto, nome, codcolcontager, codcontager, codcolconta, codconta, codreduzido, campolivre, ativo, permitelanc, codclassifica, enviasped, id, datainclusao, reccreatedby, reccreatedon, recmodifiedby, recmodifiedon, responsavel from dbo.gccusto'
+- filter_full: ''
+- filter_partial: where recmodifiedon >= dateadd(day, -1, getdate())
+- delete_full: ''
+- delete_partial: ''
+arquivo:
+- header: true
+- sep: ;
+- encoding:
+api:
+- origin:
+- url:
+- endpoint:
+- tag:
+sink:
+- datalakezone: bronze
+- datalakepath: corporerm/gccusto
+- mode: overwrite
+- key: codcoligada,codccusto
+delta:
+- tablename: ''
+- query: ''
+delta_table:
+- path: ''
+  name: ''

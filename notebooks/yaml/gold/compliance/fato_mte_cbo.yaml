@@ -1,0 +1,161 @@
+type: delta
+chunksize: 0
+database:
+- tablename: 
+- schedule: 
+- state: 
+- page: 
+- query: 
+- filter_full: 
+- filter_partial: 
+- delete_full: 
+- delete_partial: 
+arquivo:
+- tablename: 
+- format: 
+- url:
+api:
+- tablename: 
+- origin: 
+- url: 
+- endpoint: 
+- tag: 
+sink:
+- datalakezone: gold
+- datalakepath: compliance/fato_mte_cbo
+- mode: overwrite
+- key: cd
+delta:
+- tablename: ''
+- query: |
+    SELECT 
+        s.cd AS cd,
+        p.demanda_formacao,
+        INITCAP(p.grande_grupo) AS dsc_grande_grupo,
+        INITCAP(p.subgrupo_principal) AS dsc_subgrupo_principal,
+        INITCAP(s.TITULO) AS dsc_subgrupo,
+        INITCAP(p.familia) AS dsc_formacao,
+        INITCAP(p.ocupacao) AS dsc_ocupacao,
+        'Subgrupo' AS dsc_nivel,
+        p.industrial_uniepro AS dsc_industrial_uniepro
+    FROM 
+        compliance_cbo_sub_grupo s
+    LEFT OUTER JOIN 
+        compliance_flat_sub_grupo_principal p ON s.cd_subgrupo_principal = p.codigo
+    
+    UNION ALL
+    
+    SELECT 
+        f.CODIGO AS cd,
+        s.demanda_formacao,
+        INITCAP(s.grande_grupo) AS dsc_grande_grupo,
+        INITCAP(s.subgrupo_principal) AS dsc_subgrupo_principal,
+        INITCAP(s.subgrupo) AS dsc_subgrupo,
+        INITCAP(f.TITULO) AS dsc_formacao,
+        INITCAP(s.ocupacao) AS dsc_ocupacao,
+        'Família' AS dsc_nivel,
+        s.industrial_uniepro AS dsc_industrial_uniepro
+    FROM 
+        compliance_cbo_familia f
+    LEFT JOIN 
+        (SELECT 
+            s.cd AS codigo,
+            p.demanda_formacao,
+            p.grande_grupo,
+            p.subgrupo_principal,
+            s.TITULO AS subgrupo,
+            p.familia,
+            p.ocupacao,
+            p.industrial_uniepro
+         FROM 
+            compliance_cbo_sub_grupo s
+         LEFT OUTER JOIN 
+            compliance_flat_sub_grupo_principal p ON s.cd_subgrupo_principal = p.codigo) AS s
+    ON 
+        f.cd_subgrupo = s.codigo
+    
+    UNION ALL
+    
+    SELECT 
+        o.CODIGO AS cd,
+        f.demanda_formacao,
+        INITCAP(f.grande_grupo) AS dsc_grande_grupo,
+        INITCAP(f.subgrupo_principal) AS dsc_subgrupo_principal,
+        INITCAP(f.subgrupo) AS dsc_subgrupo,
+        INITCAP(f.familia) AS dsc_formacao,
+        INITCAP(o.TITULO) AS dsc_ocupacao,
+        'Ocupação' AS dsc_nivel,
+        f.industrial_uniepro AS dsc_industrial_uniepro
+    FROM 
+        compliance_cbo_ocupacao o
+    LEFT JOIN 
+        (SELECT 
+            f.CODIGO AS cd,
+            s.demanda_formacao,
+            s.grande_grupo,
+            s.subgrupo_principal,
+            s.subgrupo,
+            f.TITULO AS familia,
+            s.ocupacao,
+            s.industrial_uniepro
+         FROM 
+            compliance_cbo_familia f
+         LEFT JOIN 
+            (SELECT 
+                s.cd AS codigo,
+                p.demanda_formacao,
+                p.grande_grupo,
+                p.subgrupo_principal,
+                s.TITULO AS subgrupo,
+                p.familia,
+                p.ocupacao,
+                p.industrial_uniepro
+             FROM 
+                compliance_cbo_sub_grupo s
+             LEFT OUTER JOIN 
+                compliance_flat_sub_grupo_principal p ON s.cd_subgrupo_principal = p.codigo) AS s
+         ON 
+            f.cd_subgrupo = s.codigo) AS f
+    ON 
+        o.cd_familia = f.cd
+    
+    UNION ALL
+    
+    SELECT 
+        cd AS cd,
+        demanda_formacao,
+        INITCAP(grande_grupo) AS dsc_grande_grupo,
+        INITCAP(subgrupo_principal) AS dsc_subgrupo_principal,
+        INITCAP(subgrupo) AS dsc_subgrupo,
+        INITCAP(familia) AS dsc_formacao,
+        INITCAP(ocupacao) AS dsc_ocupacao,
+        'Grande Grupo' AS dsc_nivel,
+        industrial_uniepro AS dsc_industrial_uniepro
+    FROM 
+        compliance_cbo_grande_grupo
+    
+    UNION ALL
+    
+    SELECT 
+        codigo AS cd,
+        demanda_formacao,
+        INITCAP(grande_grupo) AS dsc_grande_grupo,
+        INITCAP(subgrupo_principal) AS dsc_subgrupo_principal,
+        INITCAP(subgrupo) AS dsc_subgrupo,
+        INITCAP(familia) AS dsc_formacao,
+        INITCAP(ocupacao) AS dsc_ocupacao,     
+        'Subgrupo Principal' AS dsc_nivel,
+        industrial_uniepro AS dsc_industrial_uniepro
+    FROM 
+        compliance_flat_sub_grupo_principal;
+delta_table:
+- path: silver/mte/dim_cbo_sub_grupo
+  name: compliance_cbo_sub_grupo
+- path: silver/mte/fato_cbo_sub_grupo_principal
+  name: compliance_flat_sub_grupo_principal
+- path: silver/mte/dim_cbo_familia
+  name: compliance_cbo_familia
+- path: silver/mte/dim_cbo_grande_grupo
+  name: compliance_cbo_grande_grupo
+- path: silver/mte/dim_cbo_ocupacao
+  name: compliance_cbo_ocupacao

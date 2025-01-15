@@ -5,7 +5,8 @@ Spark Versão: 3.5.2
 
 Delta: 3.2.0
 
-![alt text](image.png)
+![Uploading image.png…]()
+
 
 
 

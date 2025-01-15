@@ -7,22 +7,12 @@ import os
 from croniter import croniter
 from datetime import datetime, timedelta
 from delta.tables import DeltaTable
-from utils.LerYaml import LeitorYAML
 from pyspark.sql.utils import AnalysisException
 from minio import Minio
 from minio.error import S3Error
-import re
-from utils.LerYaml import LeitorYAML
-from utils.UtilsCbo import CBOUploader
-from utils.UtilsTcuAcordados import TCUAUploader
-from utils.UtilsReceitaFederal import ReceitaFederalProcessor
-from utils.UtilsCaged import CagedFileProcessor
-from utils.UtilsApiExtractor import ApiExtractor
-
 from pyspark.sql.types import StringType, DateType
 from pyspark.sql.functions import col, regexp_replace, coalesce, lit
 
-from utils.ControleStatus import ControleStatus
 
 class AlinharETL:
     

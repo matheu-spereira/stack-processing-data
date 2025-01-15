@@ -5,7 +5,7 @@ Spark Versão: 3.5.2
 
 Delta: 3.2.0
 
-![Uploading image.png…]()
+![image](https://github.com/user-attachments/assets/b81b34d9-c3f0-4976-a255-48f73da03ce3)
 
 
 

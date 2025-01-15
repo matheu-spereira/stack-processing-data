@@ -1,5 +1,5 @@
 # stack-processing-data
-Stack open source para processamento de dados utilizando Jupyter Notebook, Cluster Spark, MinIO, PostgreSQL e Metabase, aplicada em ambiente Docker.
+Stack open source para processamento de dados utilizando Jupyter Notebook, Cluster Spark, MinIO, PostgreSQL, Metabase e Briefer, aplicada em ambiente Docker.
 
 Spark Versão: 3.5.2
 

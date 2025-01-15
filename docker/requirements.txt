@@ -1,0 +1,6 @@
+PyYAML==6.0.1 
+py7zr 
+minio 
+ruamel.yaml==0.18.5 
+delta-spark==3.2.0 
+croniter==2.0.1

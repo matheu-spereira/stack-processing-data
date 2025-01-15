@@ -1,0 +1,185 @@
+# 
+# Docker Compose File for Spark, Jupyter, MinIO, and PostgreSQL
+# Author: Matheus Oliveira Mendes Pereira
+# Date: 2025-01-11
+# Description: Este arquivo configura os contêineres para um ambiente de Big Data utilizando Apache Spark, MinIO como armazenamento de objetos e PostgreSQL (paradedb) como banco de dados.
+# 
+
+version: '3.8'
+services:
+  # Spark Master: O nó mestre do Apache Spark, responsável por gerenciar a distribuição de tarefas
+  spark-master:
+    build:
+      context: docker/
+      dockerfile: Dockerfile
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    ports:
+      - "8081:8080"
+      - "7077:7077"
+    depends_on:
+      - minio
+    command: bin/spark-class org.apache.spark.deploy.master.Master
+    volumes:
+      - spark-jars:/mnt/spark-jars
+    networks:
+      - app_net
+      
+  # Spark Worker : Três nós trabalhadores do Apache Spark, que executam as tarefas enviadas pelo Spark Master
+  spark-worker:
+    build:
+      context: docker/
+      dockerfile: Dockerfile
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - SPARK_WORKER_MEMORY=4G
+      - SPARK_WORKER_CORES=4
+    depends_on:
+      - spark-master
+      - minio
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    networks:
+      - app_net
+    deploy:
+      replicas: 3  # Número de réplicas de workers
+      
+  # Spark History Server: Servidor que exibe informações sobre execuções concluídas ou incompletas de jobs do Spark
+  spark-history-server:
+    build:
+      context: docker/
+      dockerfile: Dockerfile
+    command: /opt/bitnami/spark/sbin/start-history-server.sh
+    ports:
+      - "18080:18080"  # Porta padrão do History Server
+    volumes:
+      - spark-events:/tmp/spark-events  # Certifique-se de que o volume está montado
+    networks:
+      - app_net
+    user: root
+
+  # Jupyter Notebook: Ambiente de notebook para interagir com o Spark usando Python
+  jupyter:
+    image: quay.io/jupyter/pyspark-notebook:2024-09-01
+    container_name: jupyter-local
+    ports:
+      - "8888:8888"
+    volumes:
+      - "./notebooks/:/home/jovyan/work"
+      - spark-events:/tmp/spark-events
+      - spark-jars:/mnt/spark-jars
+      - ./docker/requirements.txt:/home/jovyan/requirements.txt  # Montando o arquivo requirements.txt
+    command: /bin/sh -c "pip install -r /home/jovyan/requirements.txt && start-notebook.sh --NotebookApp.token='' --NotebookApp.password='' "
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - PATH_RAIZ=/home/jovyan/work
+      - MINIO_ACCESS_KEY=${MINIO_ROOT_USER}
+      - MINIO_SECRET_KEY=${MINIO_ROOT_PASSWORD}
+      - MINIO_HOST=http://minio:9000
+      - TZ=America/Sao_Paulo
+    depends_on:
+      - spark-master
+      - minio
+    networks:
+      - app_net
+    
+  # MinIO: Armazenamento de objetos para persistir dados, usado como backend para o Spark
+  minio:
+    container_name: minio
+    image: minio/minio:latest
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio-data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data --console-address ":9001"
+    networks:
+      - app_net
+
+  # PostgreSQL (paradedb): Banco de dados PostgreSQL para persistir dados relacionados ao sistema
+  paradedb:
+    image: paradedb/paradedb:latest
+    container_name: paradedb
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_DB_METABASE=${POSTGRES_DB_METABASE}
+      - POSTGRES_DB_BRIEFER=${POSTGRES_DB_BRIEFER}
+    volumes:
+      - paradedb_data:/var/lib/postgresql/data/
+      - ./docker/init-db-postgre.sh:/docker-entrypoint-initdb.d/init-db.sh
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - app_net
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    hostname: metabase
+    volumes:
+      - /dev/urandom:/dev/random:ro
+    ports:
+      - 3000:3000
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: ${POSTGRES_DB_METABASE}
+      MB_DB_PORT: 5432
+      MB_DB_USER: ${POSTGRES_USER}
+      MB_DB_PASS: ${POSTGRES_PASSWORD}
+      MB_DB_HOST: paradedb
+    networks:
+      - app_net
+    healthcheck:
+      test: curl --fail -I http://localhost:3000/api/health || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      - paradedb
+
+  briefer:
+    image: briefercloud/briefer
+    container_name: briefer
+    ports:
+      - "4000:3000"  # Mapeia a porta 3000 do container para a porta 4000 do host
+    volumes:
+      - briefer_psql_data:/var/lib/postgresql/data
+      - briefer_jupyter_data:/home/jupyteruser      # Volume para dados do Jupyter
+      - briefer_briefer_data:/home/briefer          # Volume para dados do Briefer
+    environment:
+      - ALLOW_HTTP="true"
+    restart: always
+    networks:
+      - app_net
+
+      
+# Definição de volumes persistentes usados por vários contêineres
+volumes:
+  briefer_psql_data:
+  briefer_jupyter_data:
+  briefer_briefer_data:
+  spark-events:  # Volume compartilhado para armazenar eventos do Spark
+  spark-jars:  # Volume compartilhado para jars eventos do Spark
+  minio-data:  # Volume persistente para dados do MinIO
+  paradedb_data:  # Volume para dados do PostgreSQL
+
+# Definição da rede para os contêineres se comunicarem
+networks:
+  app_net:
+    driver: bridge
+
+

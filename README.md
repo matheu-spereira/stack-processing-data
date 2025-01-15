@@ -9,7 +9,7 @@ Stack open source para processamento de dados utilizando Jupyter Notebook, Clust
 - **Metabase**: [http://localhost:3000/](http://localhost:3000/)
 - **Briefer**: [http://localhost:4000/](http://localhost:4000/)
 
-# Versões
+# Versões utilizadas no ambiente
 - **Spark**: 3.5.2
 - **Delta**: 3.2.0
 - **Python**: 3.11.9
